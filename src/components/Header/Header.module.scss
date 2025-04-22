@@ -1,0 +1,482 @@
+// src/components/Header/Header.module.scss
+@use "@/styles/variables" as vars;
+@use "@/styles/mixins" as mixins;
+
+.header {
+  background-color: transparent;
+  border-bottom: none;
+  height: auto;
+  padding: 0;
+  position: relative;
+  z-index: vars.$z-index-header;
+
+  &.hiddenOnMobile {
+    @include mixins.mobile {
+      display: none;
+    }
+  }
+}
+
+.headerOuterWrapper {
+  z-index: vars.$z-index-header;
+  background-color: #f9fcfc;
+
+  @include mixins.mobile {
+    background-color: transparent;
+    padding: vars.$header-margin-mobile-top vars.$header-margin-mobile-x 0
+      vars.$header-margin-mobile-x;
+  }
+}
+
+.headerInnerWrapper {
+  width: 100%;
+  @include mixins.mobile {
+    background-color: vars.$color-background-header-mobile;
+    border: 1px solid vars.$color-border-header-mobile;
+    border-radius: vars.$header-border-radius;
+    height: vars.$header-height-mobile;
+    display: flex;
+  }
+  @include mixins.desktop {
+    background-color: transparent;
+    border-bottom: none;
+    height: vars.$header-height-desktop;
+    display: flex;
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: calc(vars.$z-index-header + 10);
+  }
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  max-width: vars.$container-max-width;
+  margin: 0 auto;
+
+  @include mixins.mobile {
+    padding: 0 15px;
+  }
+  @include mixins.desktop {
+    margin-top: vars.$spacing-md;
+    padding: 0 vars.$container-padding-desktop;
+    width: 100%; /* Ensure full width */
+  }
+}
+
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  a {
+    display: block;
+    line-height: 0;
+  }
+}
+
+.logoSvg {
+  height: 40px;
+  width: auto;
+  display: block;
+}
+
+.mobileHeaderActions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  @include mixins.desktop {
+    display: none;
+  }
+}
+
+.mobileSearchButton,
+.mobileMenuButton {
+  background: none;
+  border: none;
+  padding: vars.$spacing-sm;
+  margin: vars.$spacing-sm * -1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: vars.$color-icon-mobile-closed;
+
+  &:focus-visible {
+    outline: 2px solid vars.$color-primary;
+    outline-offset: 2px;
+    border-radius: vars.$border-radius-sm;
+  }
+}
+
+.searchIconSvg,
+.menuIconSvg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.mobileMenuPanel {
+  box-sizing: border-box; // Ensure padding/border are included in width/height
+  overflow-x: hidden; // Prevent accidental horizontal scroll
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: vars.$menu-panel-background;
+  z-index: vars.$z-index-mobile-menu;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  color: vars.$menu-panel-text;
+
+  &.isOpen {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+  }
+  @include mixins.desktop {
+    display: none;
+  }
+}
+
+.mobileMenuTopBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  height: vars.$header-height-mobile;
+  flex-shrink: 0;
+}
+
+.mobileMenuLogoSimpleWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.mobileMenuLogoSimple {
+  height: 30px;
+  width: auto;
+  color: vars.$menu-panel-icon;
+}
+
+.mobileMenuTopActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mobileMenuSearchButton,
+.mobileMenuCloseButton {
+  background: none;
+  border: none;
+  padding: vars.$spacing-sm;
+  margin: vars.$spacing-sm * -1;
+  cursor: pointer;
+  display: flex;
+  color: vars.$menu-panel-icon;
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  &:focus-visible {
+    outline: 2px solid vars.$color-white;
+    outline-offset: 2px;
+    border-radius: vars.$border-radius-sm;
+  }
+}
+
+.mobileMenuScrollableContent {
+  padding: vars.$spacing-xl 30px vars.$spacing-2xl 30px;
+  overflow-y: auto;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box; // Ensure padding is included
+  width: 100%; // Explicitly set width
+}
+
+.mobileMenuNavPrimary {
+  margin-bottom: vars.$spacing-4xl;
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  li {
+    margin-bottom: vars.$spacing-lg;
+    a {
+      display: block;
+      text-decoration: none;
+      color: vars.$menu-panel-text;
+      font-size: 22px;
+      font-weight: vars.$font-weight-medium;
+      padding: vars.$spacing-xs 0;
+      &:hover,
+      &.activeLink {
+        color: lighten(vars.$menu-panel-text, 20%);
+      }
+    }
+  }
+}
+
+.mobileMenuNavSecondary {
+  margin-bottom: vars.$spacing-4xl;
+  margin-top: auto;
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: vars.$spacing-md vars.$spacing-lg;
+  }
+  a {
+    display: block;
+    text-decoration: none;
+    color: vars.$menu-panel-text;
+    font-size: 14px;
+    font-weight: vars.$font-weight-regular;
+    padding: vars.$spacing-xs 0;
+    &:hover {
+      color: lighten(vars.$menu-panel-text, 20%);
+    }
+  }
+}
+
+.mobileMenuMainAction {
+  margin-bottom: vars.$spacing-3xl;
+}
+
+.mainActionButton {
+  @include mixins.buttonBaseStyles;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: vars.$spacing-sm;
+  padding: vars.$spacing-md vars.$spacing-lg;
+  background-color: vars.$menu-panel-action-button-bg;
+  color: vars.$menu-panel-action-button-text;
+  border: none;
+  border-radius: vars.$header-border-radius;
+  font-size: 16px;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+  &:hover {
+    background-color: lighten(vars.$menu-panel-action-button-bg, 10%);
+  }
+  &:focus-visible {
+    outline: 2px solid vars.$color-white;
+    outline-offset: 2px;
+  }
+}
+
+.mobileMenuLangSwitcher {
+  text-align: center;
+  padding-bottom: vars.$spacing-md;
+}
+
+.langLink,
+.langLinkActive {
+  font-size: 14px;
+  font-weight: vars.$font-weight-medium;
+  text-decoration: none;
+  padding: 0 vars.$spacing-xs;
+}
+
+.langLink {
+  color: vars.$menu-panel-lang-inactive;
+  &:hover {
+    color: lighten(vars.$menu-panel-text, 20%);
+  }
+}
+
+.langLinkActive {
+  color: vars.$menu-panel-text;
+}
+
+.langSeparator {
+  color: vars.$menu-panel-lang-inactive;
+  margin: 0 vars.$spacing-xs;
+}
+
+@include mixins.desktop {
+  .headerOuterWrapper {
+    padding: 0;
+    padding-top: vars.$spacing-sm;
+    padding-bottom: vars.$spacing-sm;
+  }
+  .mobileHeaderActions,
+  .mobileMenuPanel {
+    display: none;
+  }
+  .desktopNav,
+  .desktopActions {
+    display: flex;
+  }
+
+  .desktopNav {
+    margin: 0 auto;
+  }
+  .desktopActions {
+    align-items: center;
+    gap: vars.$spacing-md;
+  }
+  .desktopSearchButton {
+    background: none;
+    border: none;
+    padding: vars.$spacing-sm;
+    margin: vars.$spacing-sm * -1;
+    cursor: pointer;
+    color: vars.$color-text-secondary;
+    display: flex;
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+    &:hover {
+      color: vars.$color-text-primary;
+    }
+  }
+}
+
+.desktopSecondaryNavList {
+  display: flex;
+  gap: vars.$spacing-lg;
+  background-color: #f9fcfc;
+  padding: vars.$spacing-sm vars.$spacing-lg;
+  border-radius: vars.$border-radius-md;
+  z-index: vars.$z-index-header;
+}
+
+.desktopTopContainer {
+  display: none;
+
+  @include mixins.desktop {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    max-width: vars.$container-max-width;
+    margin: 0 auto;
+    padding: vars.$spacing-sm vars.$container-padding-desktop;
+    position: relative;
+    z-index: vars.$z-index-header;
+  }
+}
+
+.desktopMainNav {
+  display: none;
+
+  @include mixins.desktop {
+    display: flex;
+    margin-right: vars.$spacing-xl;
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: vars.$spacing-lg;
+    }
+
+    a {
+      text-decoration: none;
+      color: vars.$color-text-primary;
+      font-size: 14px;
+      font-weight: vars.$font-weight-medium;
+
+      &:hover,
+      &.activeLink {
+        color: vars.$color-primary;
+      }
+    }
+  }
+}
+
+.desktopLangSwitcher {
+  display: none;
+
+  @include mixins.desktop {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.desktopSecondaryNav {
+  display: none;
+
+  @include mixins.desktop {
+    display: flex;
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: vars.$spacing-lg;
+    }
+
+    li {
+      display: flex;
+    }
+
+    a {
+      text-decoration: none;
+      color: vars.$color-text-primary;
+      font-size: 16px;
+      font-weight: vars.$font-weight-medium;
+      padding: vars.$spacing-sm vars.$spacing-md;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: vars.$color-primary;
+      }
+
+      &.activeLink {
+        color: vars.$color-primary;
+        font-weight: vars.$font-weight-semibold;
+      }
+    }
+  }
+}
+
+.desktopSearchButton {
+  display: none;
+
+  @include mixins.desktop {
+    display: flex;
+    background: none;
+    border: none;
+    padding: vars.$spacing-sm;
+    margin: vars.$spacing-sm * -1;
+    cursor: pointer;
+    color: vars.$color-text-secondary;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    &:hover {
+      color: vars.$color-text-primary;
+    }
+
+    &:focus-visible {
+      outline: 2px solid vars.$color-primary;
+      outline-offset: 2px;
+      border-radius: vars.$border-radius-sm;
+    }
+  }
+}

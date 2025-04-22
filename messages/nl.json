@@ -1,0 +1,27 @@
+{
+  "Header": {
+    "navConseil": "Centrale Raad",
+    "navSurveillance": "Toezicht",
+    "navAvis": "Advies",
+    "navDroit": "Klachtrecht",
+    "navPublications": "Publicaties",
+    "navMecanisme": "Preventiemechanisme",
+
+    "navActualites": "Actualiteiten",
+    "navJurisprudence": "Jurisprudentie",
+    "navJob": "Job",
+    "navContact": "Contact",
+    "navLiens": "Nuttige links",
+
+    "openMenu": "Hoofdmenu openen",
+    "closeMenu": "Hoofdmenu sluiten",
+    "search": "Zoeken",
+    "mainAction": "Ik ben gedetineerd(e)",
+    "ariaHomepage": "Ga naar de CCSP startpagina",
+    "currentLang": "NL"
+  },
+  "HomePage": {
+    "title": "Centrale Raad voor de Gevangenis",
+    "about": "De Centrale Raad voor de Gevangenis (CCSP) is een onafhankelijke adviserende organisatie die bijdraagt aan het verbeteren van de kwaliteit van zorg en diensten in gevangenissen."
+  }
+}

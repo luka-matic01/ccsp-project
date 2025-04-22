@@ -1,0 +1,27 @@
+{
+  "Header": {
+    "navConseil": "Conseil central",
+    "navSurveillance": "Surveillance",
+    "navAvis": "Avis",
+    "navDroit": "Droit de plainte",
+    "navPublications": "Publications",
+    "navMecanisme": "Mécanisme de prévention",
+
+    "navActualites": "Actualités",
+    "navJurisprudence": "Jurisprudence",
+    "navJob": "Job",
+    "navContact": "Contact",
+    "navLiens": "Liens utiles",
+
+    "openMenu": "Ouvrir le menu principal",
+    "closeMenu": "Fermer le menu principal",
+    "search": "Recherche",
+    "mainAction": "Je suis détenu(e)",
+    "ariaHomepage": "Aller à la page d'accueil CCSP",
+    "currentLang": "FR"
+  },
+  "HomePage": {
+    "title": "Conseil central de surveillance de la prison",
+    "about": "Le Conseil central de surveillance de la prison (CCSP) est un organe consultatif indépendant qui contribue à améliorer la qualité des soins et des services dans les prisons."
+  }
+}

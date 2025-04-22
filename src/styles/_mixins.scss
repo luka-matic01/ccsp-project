@@ -1,0 +1,30 @@
+// src/styles/_mixins.scss
+@use "variables" as vars;
+
+@mixin desktop {
+  @media (min-width: vars.$breakpoint-desktop) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media (max-width: (vars.$breakpoint-desktop - 1px)) {
+    @content;
+  }
+}
+
+@mixin buttonBaseStyles {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  border-radius: vars.$border-radius-md;
+  padding: vars.$spacing-sm vars.$spacing-lg;
+  font-weight: vars.$font-weight-medium;
+  transition: background-color 0.2s ease, color 0.2s ease,
+    border-color 0.2s ease;
+
+  &:focus-visible {
+    outline: 2px solid vars.$color-primary-dark;
+    outline-offset: 2px;
+  }
+}

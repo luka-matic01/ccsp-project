@@ -1,0 +1,16 @@
+// src/styles/globals.scss
+@use "reset"; // <-- IMPORT THE RESET FIRST
+@use "variables" as vars;
+@use "mixins" as mixins;
+
+body {
+  color: vars.$color-text-primary;
+  background-color: #f2f2f2;
+  font-family: var(--font-host-grotesk);
+  overflow-y: scroll;
+  z-index: 1;
+}
+
+body.no-scroll {
+  overflow: hidden;
+}

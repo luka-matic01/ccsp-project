@@ -1,0 +1,59 @@
+// src/styles/_variables.scss
+
+// Add these variables
+$header-margin-mobile-x: 20px; // Adjust based on your design
+$header-margin-mobile-top: 15px; // Adjust based on your design
+
+// Existing variables...
+$color-white: #ffffff;
+$color-background-header: #ffffff;
+$color-background-header-mobile: #f9fafb;
+$color-border-header: #e5e7eb;
+$color-border-header-mobile: #e5e7eb;
+$color-primary: #4f46e5;
+$color-primary-dark: #4338ca;
+$color-text-primary: #111827;
+$color-text-secondary: #6b7280;
+$color-text-button: #ffffff;
+$color-icon-mobile-closed: #042f2f;
+$menu-panel-background: #25282d;
+$menu-panel-text: #ffffff;
+$menu-panel-icon: #ffffff;
+$menu-panel-action-button-bg: #065f60;
+$menu-panel-action-button-text: #ffffff;
+$menu-panel-lang-inactive: darken($menu-panel-text, 30%);
+
+$font-size-nav-desktop: 16px;
+$font-size-nav-mobile: 20px;
+$font-size-button-desktop: 14px;
+$font-size-button-mobile: 16px;
+
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 20px;
+$spacing-xl: 24px;
+$spacing-2xl: 32px;
+$spacing-3xl: 40px;
+$spacing-4xl: 48px;
+
+$header-height-mobile: 70px;
+$header-height-desktop: 80px;
+$container-padding-mobile: $spacing-lg;
+$container-padding-desktop: $spacing-3xl;
+$container-max-width: 1560px;
+
+$border-radius-sm: 4px;
+$border-radius-md: 6px;
+
+$z-index-header: 100;
+$z-index-mobile-menu: 110;
+
+$breakpoint-desktop: 1024px;
+$header-margin-mobile-x: 20px; // Adjust based on your design
+$header-margin-mobile-top: 15px; // Adjust based on your design
+$header-border-radius: 10px;
