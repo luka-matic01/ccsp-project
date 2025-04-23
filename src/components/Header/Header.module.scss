@@ -62,7 +62,7 @@
     padding: 0 15px;
   }
   @include mixins.desktop {
-    margin-top: vars.$spacing-md;
+    margin-top: 48;
     padding: 0 vars.$container-padding-desktop;
     width: 100%; /* Ensure full width */
   }
@@ -78,10 +78,32 @@
   }
 }
 
-.logoSvg {
-  height: 40px;
-  width: auto;
+.logoImage {
   display: block;
+
+  @include mixins.desktop {
+    display: none; // Hide image on desktop
+  }
+}
+
+.logoSvg {
+  display: none;
+
+  @include mixins.desktop {
+    display: block; // Always show icon on desktop
+  }
+}
+
+.hideOnMobileMenuOpen {
+  @include mixins.mobile {
+    display: none !important; // Hide image if menu is open on mobile
+  }
+}
+
+.hideIconWhenMobileMenuClosed {
+  @include mixins.mobile {
+    display: none !important; // Hide icon if menu is closed on mobile
+  }
 }
 
 .mobileHeaderActions {
@@ -241,9 +263,9 @@
     gap: vars.$spacing-md vars.$spacing-lg;
   }
   a {
+    color: #585656;
     display: block;
     text-decoration: none;
-    color: vars.$menu-panel-text;
     font-size: 14px;
     font-weight: vars.$font-weight-regular;
     padding: vars.$spacing-xs 0;
@@ -290,26 +312,35 @@
 
 .langLink,
 .langLinkActive {
+  display: inline-block;
+  text-decoration: none;
   font-size: 14px;
   font-weight: vars.$font-weight-medium;
-  text-decoration: none;
-  padding: 0 vars.$spacing-xs;
+  padding: vars.$spacing-xs vars.$spacing-sm;
+  border-radius: vars.$border-radius-sm;
+  transition: color 0.2s ease, background-color 0.2s ease;
+  white-space: nowrap;
 }
 
 .langLink {
-  color: vars.$menu-panel-lang-inactive;
+  color: #acacac;
+
   &:hover {
-    color: lighten(vars.$menu-panel-text, 20%);
+    color: vars.$color-primary;
   }
 }
 
 .langLinkActive {
-  color: vars.$menu-panel-text;
+  color: #585656;
+  font-weight: vars.$font-weight-semibold;
+  cursor: default;
 }
 
 .langSeparator {
   color: vars.$menu-panel-lang-inactive;
   margin: 0 vars.$spacing-xs;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 @include mixins.desktop {
@@ -350,13 +381,86 @@
       color: vars.$color-text-primary;
     }
   }
+
+  .desktopLangSwitcher {
+    display: flex;
+    align-items: center;
+    margin-left: vars.$spacing-lg;
+  }
+
+  .desktopActionButtons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .desktopIconButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    background-color: #0b828a;
+    border-radius: vars.$border-radius-sm;
+    border: 2px solid #154b50;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      display: block;
+      color: white;
+    }
+
+    &:hover {
+      background-color: lighten(#0b828a, 5%);
+    }
+
+    &:focus-visible {
+      outline: 2px solid vars.$color-primary;
+      outline-offset: 1px;
+    }
+  }
+
+  .desktopTextButton {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-sm;
+    padding: 8px 12px;
+    background-color: #154b50;
+    border-radius: vars.$border-radius-sm;
+    border: none;
+    color: vars.$color-white;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: vars.$font-weight-medium;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    white-space: nowrap;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      display: block;
+      color: white;
+    }
+
+    &:hover {
+      background-color: lighten(#154b50, 8%);
+    }
+
+    &:focus-visible {
+      outline: 2px solid vars.$color-white;
+      outline-offset: 1px;
+    }
+  }
 }
 
 .desktopSecondaryNavList {
   display: flex;
   gap: vars.$spacing-lg;
   background-color: #f9fcfc;
-  padding: vars.$spacing-sm vars.$spacing-lg;
+  padding: 12px 16px;
   border-radius: vars.$border-radius-md;
   z-index: vars.$z-index-header;
 }
@@ -381,19 +485,18 @@
 
   @include mixins.desktop {
     display: flex;
-    margin-right: vars.$spacing-xl;
 
     ul {
       list-style: none;
       padding: 0;
       margin: 0;
       display: flex;
-      gap: vars.$spacing-lg;
+      gap: vars.$spacing-3xl;
     }
 
     a {
       text-decoration: none;
-      color: vars.$color-text-primary;
+      color: #585656;
       font-size: 14px;
       font-weight: vars.$font-weight-medium;
 
@@ -422,7 +525,7 @@
 
     ul {
       list-style: none;
-      padding: 0;
+      padding: 12;
       margin: 0;
       display: flex;
       gap: vars.$spacing-lg;
@@ -478,5 +581,60 @@
       outline-offset: 2px;
       border-radius: vars.$border-radius-sm;
     }
+  }
+}
+
+.desktopSearchWrapper {
+  display: none;
+  align-items: center;
+  gap: 12;
+
+  @include mixins.desktop {
+    display: flex;
+  }
+}
+
+.desktopSearchButtonSecondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: vars.$spacing-md vars.$spacing-lg;
+  background-color: #0b828a;
+  border-radius: vars.$border-radius-sm;
+  border: 2px solid #154b50;
+  cursor: pointer;
+
+  .whiteIcon {
+    circle {
+      stroke: #ffffff; // White circle
+    }
+
+    path {
+      stroke: #ddb736; // Gold stick
+    }
+  }
+}
+
+.desktopSearchButton {
+  display: flex;
+  align-items: center;
+  gap: vars.$spacing-sm;
+  padding: vars.$spacing-md vars.$spacing-lg;
+  border: 2px solid #154b50;
+  background-color: #154b50;
+  border-radius: vars.$border-radius-sm;
+  color: vars.$color-white;
+  &:hover {
+    color: white;
+    background-color: #585656;
+  }
+
+  .whiteIcon {
+    color: vars.$color-white;
+  }
+
+  svg {
+    width: 12px;
+    height: 12px;
   }
 }

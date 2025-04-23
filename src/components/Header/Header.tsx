@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import styles from "./Header.module.scss";
 
@@ -10,6 +10,7 @@ import IconLogo from "../Icons/IconLogo";
 import IconHamburger from "../Icons/IconHamburger";
 import IconClose from "../Icons/IconClose";
 import IconSearch from "../Icons/IconSearch";
+import IconButton from "../Icons/IconButton";
 import Image from "next/image";
 
 const menuNavigationConfig = [
@@ -33,6 +34,7 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const t = useTranslations("Header");
   const pathname = usePathname();
+  const locale = useLocale();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -94,14 +96,23 @@ const Header = () => {
               <ul>{renderSecondaryMenuNavLinks()}</ul>
             </nav>
             <div className={styles.desktopLangSwitcher}>
-              <Link href={pathname} locale="nl" className={styles.langLink}>
+              <Link
+                href={pathname}
+                locale="nl"
+                className={
+                  locale === "nl" ? styles.langLinkActive : styles.langLink
+                }
+                aria-current={locale === "nl" ? "page" : undefined}
+              >
                 NL
               </Link>
-              <span className={styles.langSeparator}>/</span>
               <Link
                 href={pathname}
                 locale="fr"
-                className={styles.langLinkActive}
+                className={
+                  locale === "fr" ? styles.langLinkActive : styles.langLink
+                }
+                aria-current={locale === "fr" ? "page" : undefined}
               >
                 FR
               </Link>
@@ -112,11 +123,22 @@ const Header = () => {
             <div className={styles.container}>
               <div className={styles.logoWrapper}>
                 <Link href="/" aria-label={t("ariaHomepage")}>
-                  {isMobileMenuOpen ? (
-                    <Image src="/logo.png" alt="Logo" width={153} height={60} />
-                  ) : (
-                    <IconLogo className={styles.logoSvg} />
-                  )}
+                  <Image
+                    src="/logo.png"
+                    alt="Logo"
+                    width={153}
+                    height={60}
+                    className={`${styles.logoImage} ${
+                      isMobileMenuOpen ? styles.hideOnMobileMenuOpen : ""
+                    }`}
+                  />
+                  <IconLogo
+                    className={`${styles.logoSvg} ${
+                      !isMobileMenuOpen
+                        ? styles.hideIconWhenMobileMenuClosed
+                        : ""
+                    }`}
+                  />
                 </Link>
               </div>
               <div className={styles.mobileHeaderActions}>
@@ -142,13 +164,19 @@ const Header = () => {
                   {renderMenuNavLinks()}
                 </ul>
               </nav>
+              <div className={styles.desktopSearchWrapper}>
+                <button
+                  className={styles.desktopSearchButtonSecondary}
+                  aria-label={t("search")}
+                >
+                  <IconSearch className={styles.whiteIcon} />
+                </button>
 
-              <button
-                className={styles.desktopSearchButton}
-                aria-label={t("search")}
-              >
-                <IconSearch />
-              </button>
+                <button className={styles.desktopSearchButton}>
+                  Je suis détenu(e)
+                  <IconButton className={styles.whiteIcon} />
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -206,11 +234,25 @@ const Header = () => {
           </div>
 
           <div className={styles.mobileMenuLangSwitcher}>
-            <Link href={pathname} locale="nl" className={styles.langLink}>
+            <Link
+              href={pathname}
+              locale="nl"
+              className={
+                locale === "nl" ? styles.langLinkActive : styles.langLink
+              }
+              aria-current={locale === "nl" ? "page" : undefined}
+            >
               NL
             </Link>
             <span className={styles.langSeparator}>/</span>
-            <Link href={pathname} locale="fr" className={styles.langLinkActive}>
+            <Link
+              href={pathname}
+              locale="fr"
+              className={
+                locale === "fr" ? styles.langLinkActive : styles.langLink
+              }
+              aria-current={locale === "fr" ? "page" : undefined}
+            >
               FR
             </Link>
           </div>
