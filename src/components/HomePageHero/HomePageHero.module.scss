@@ -12,7 +12,7 @@
 }
 
 .container {
-  max-width: 1920px;
+  max-width: vars.$container-max-width-desktop;
   margin: 0 auto;
   // Mobile: Apply standard side padding here
 
@@ -66,32 +66,36 @@
 }
 
 .contentWrapper {
-  // Mobile: Already centered by .container styles
+  // Mobile stays the same…
   display: flex;
   flex-direction: column;
   gap: vars.$spacing-lg;
-  width: 100%; // Take full width within mobile padding
+  width: 100%;
 
   @include mixins.mobile {
     align-items: center;
     text-align: center;
   }
 
-  @include mixins.biggest-desktop {
-    padding-left: 200px;
-  }
-
   @include mixins.desktop {
-    order: 1; // Content on the left
-    // Assign remaining width. Needs to account for the gap.
-    // e.g., if imageWrapper is 55%, this could be 45% minus adjustments for gap.
-    // Using flex-basis is often better here.
-    flex-basis: 50%; // Adjust this percentage as needed
-    flex-shrink: 0; // Prevent shrinking
-    width: auto; // Override mobile width: 100%
+    order: 1;
+    flex-basis: 50%;
+    flex-shrink: 0;
+    width: auto;
     text-align: left;
     align-items: flex-start;
-    gap: vars.$spacing-xl; // Larger gap for desktop text elements
+    gap: vars.$spacing-xl;
+
+    // BETWEEN 1024px and 1150px → give it a top-margin
+    @media (min-width: 1024px) and (max-width: 1149px) {
+      margin-top: 96; // or whatever offset you need
+    }
+
+    // AT 1150px and UP → remove that top spacing entirely
+    @media (min-width: 1150px) {
+      margin-top: 0;
+      padding-top: 0;
+    }
   }
 }
 

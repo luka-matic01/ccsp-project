@@ -84,7 +84,7 @@ const Header = () => {
   };
 
   return (
-    <>
+    <div className={styles.headerAbsoluteWrapper}>
       <header
         className={`${styles.header} ${
           isMobileMenuOpen ? styles.hiddenOnMobile : ""
@@ -121,26 +121,29 @@ const Header = () => {
 
           <div className={styles.headerInnerWrapper}>
             <div className={styles.container}>
-              <div className={styles.logoWrapper}>
-                <Link href="/" aria-label={t("ariaHomepage")}>
-                  <Image
-                    src="/logo.png"
-                    alt="Logo"
-                    width={153}
-                    height={60}
-                    className={`${styles.logoImage} ${
-                      isMobileMenuOpen ? styles.hideOnMobileMenuOpen : ""
-                    }`}
-                  />
-                  <IconLogo
-                    className={`${styles.logoSvg} ${
-                      !isMobileMenuOpen
-                        ? styles.hideIconWhenMobileMenuClosed
-                        : ""
-                    }`}
-                  />
-                </Link>
+              <div className={styles.headerLogoSection}>
+                <div className={styles.logoWrapper}>
+                  <Link href="/" aria-label={t("ariaHomepage")}>
+                    <Image
+                      src="/logo.png"
+                      alt="Logo"
+                      width={153}
+                      height={60}
+                      className={`${styles.logoImage} ${
+                        isMobileMenuOpen ? styles.hideOnMobileMenuOpen : ""
+                      }`}
+                    />
+                    <IconLogo
+                      className={`${styles.logoSvg} ${
+                        !isMobileMenuOpen
+                          ? styles.hideIconWhenMobileMenuClosed
+                          : ""
+                      }`}
+                    />
+                  </Link>
+                </div>
               </div>
+
               <div className={styles.mobileHeaderActions}>
                 <button
                   className={styles.mobileSearchButton}
@@ -159,23 +162,28 @@ const Header = () => {
                 </button>
               </div>
 
-              <nav className={styles.desktopSecondaryNav}>
-                <ul className={styles.desktopSecondaryNavList}>
-                  {renderMenuNavLinks()}
-                </ul>
-              </nav>
-              <div className={styles.desktopSearchWrapper}>
-                <button
-                  className={styles.desktopSearchButtonSecondary}
-                  aria-label={t("search")}
-                >
-                  <IconSearch className={styles.whiteIcon} />
-                </button>
+              <div className={styles.headerNavSection}>
+                <nav className={styles.desktopSecondaryNav}>
+                  <ul className={styles.desktopSecondaryNavList}>
+                    {renderMenuNavLinks()}
+                  </ul>
+                </nav>
+              </div>
 
-                <button className={styles.desktopSearchButton}>
-                  {t("mainAction")}
-                  <IconButton className={styles.whiteIcon} />
-                </button>
+              <div className={styles.headerActionSection}>
+                <div className={styles.desktopSearchWrapper}>
+                  <button
+                    className={styles.desktopSearchButtonSecondary}
+                    aria-label={t("search")}
+                  >
+                    <IconSearch className={styles.whiteIcon} />
+                  </button>
+
+                  <button className={styles.desktopSearchButton}>
+                    {t("mainAction")}
+                    <IconButton className={styles.whiteIcon} />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -257,7 +265,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
