@@ -227,10 +227,10 @@ const Header = () => {
           </nav>
 
           <div className={styles.mobileMenuMainAction}>
-            <Link href="/je-suis-detenu" className={styles.mainActionButton}>
-              <span>{t("mainAction")}</span>
-              <IconSearch />
-            </Link>
+            <button className={styles.mainActionButton}>
+              Je suis détenu(e)
+              <IconButton className={styles.whiteIcon} />
+            </button>
           </div>
 
           <div className={styles.mobileMenuLangSwitcher}>
@@ -244,7 +244,6 @@ const Header = () => {
             >
               NL
             </Link>
-            <span className={styles.langSeparator}>/</span>
             <Link
               href={pathname}
               locale="fr"

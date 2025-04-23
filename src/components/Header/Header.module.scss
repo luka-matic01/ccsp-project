@@ -149,7 +149,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: vars.$menu-panel-background;
+  background-color: #f9fcfc;
   z-index: vars.$z-index-mobile-menu;
   transform: translateX(100%);
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -173,7 +173,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: 32px 30px 0 30px;
   height: vars.$header-height-mobile;
   flex-shrink: 0;
 }
@@ -192,7 +192,7 @@
 .mobileMenuTopActions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: vars.$spacing-md;
 }
 
 .mobileMenuSearchButton,
@@ -204,11 +204,6 @@
   cursor: pointer;
   display: flex;
   color: vars.$menu-panel-icon;
-
-  svg {
-    width: 24px;
-    height: 24px;
-  }
 
   &:focus-visible {
     outline: 2px solid vars.$color-white;
@@ -239,13 +234,13 @@
     a {
       display: block;
       text-decoration: none;
-      color: vars.$menu-panel-text;
-      font-size: 22px;
+      color: #2a2a2a;
+      font-size: 20px;
       font-weight: vars.$font-weight-medium;
       padding: vars.$spacing-xs 0;
       &:hover,
       &.activeLink {
-        color: lighten(vars.$menu-panel-text, 20%);
+        color: lighten(#2a2a2a, 20%);
       }
     }
   }
@@ -263,7 +258,7 @@
     gap: vars.$spacing-md vars.$spacing-lg;
   }
   a {
-    color: #585656;
+    color: #2a2a2a;
     display: block;
     text-decoration: none;
     font-size: 14px;
@@ -277,28 +272,39 @@
 
 .mobileMenuMainAction {
   margin-bottom: vars.$spacing-3xl;
+  display: flex;
+  justify-content: center;
+  /* instead of center, allow child to stretch full width: */
+  align-items: stretch;
+  width: 100%;
+  flex-shrink: 0;
 }
 
 .mainActionButton {
-  @include mixins.buttonBaseStyles;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: vars.$spacing-sm;
+  display: flex; // enable flex layout inside button
+  align-items: center; // vertically center text and icon
+  justify-content: center; // center content horizontally (optional, or use space-between if needed)
+  gap: vars.$spacing-sm; // space between text and icon
+
+  width: 100%; // make button full width
+  box-sizing: border-box;
+
   padding: vars.$spacing-md vars.$spacing-lg;
   background-color: vars.$menu-panel-action-button-bg;
   color: vars.$menu-panel-action-button-text;
   border: none;
   border-radius: vars.$header-border-radius;
-  font-size: 16px;
+  font-size: 14px;
 
   svg {
-    width: 16px;
-    height: 16px;
+    width: 10px;
+    height: 10px;
   }
+
   &:hover {
     background-color: lighten(vars.$menu-panel-action-button-bg, 10%);
   }
+
   &:focus-visible {
     outline: 2px solid vars.$color-white;
     outline-offset: 2px;
@@ -366,19 +372,33 @@
     gap: vars.$spacing-md;
   }
   .desktopSearchButton {
-    background: none;
-    border: none;
-    padding: vars.$spacing-sm;
-    margin: vars.$spacing-sm * -1;
-    cursor: pointer;
-    color: vars.$color-text-secondary;
-    display: flex;
-    svg {
-      width: 20px;
-      height: 20px;
+    display: none; // Hidden by default on wider desktops
+
+    @media (max-width: 1350px) {
+      display: flex; // Reappear below 1350px
     }
+
+    // Keep rest of your styling
+    align-items: center;
+    gap: vars.$spacing-sm;
+    padding: vars.$spacing-md vars.$spacing-lg;
+    border: 2px solid #154b50;
+    background-color: #154b50;
+    border-radius: vars.$border-radius-sm;
+    color: vars.$color-white;
+
     &:hover {
-      color: vars.$color-text-primary;
+      color: white;
+      background-color: #585656;
+    }
+
+    .whiteIcon {
+      color: vars.$color-white;
+    }
+
+    svg {
+      width: 12px;
+      height: 12px;
     }
   }
 
@@ -518,14 +538,15 @@
 }
 
 .desktopSecondaryNav {
-  display: none;
+  display: none; // Keep default display: none
 
   @include mixins.desktop {
+    // This nested @include is redundant here, but let's keep structure
     display: flex;
 
     ul {
       list-style: none;
-      padding: 12;
+      padding: 12px; // Note: unitless padding might be unintentional, consider 12px
       margin: 0;
       display: flex;
       gap: vars.$spacing-lg;
@@ -538,10 +559,11 @@
     a {
       text-decoration: none;
       color: vars.$color-text-primary;
+      // Default font size for >= 1350px
       font-size: 16px;
       font-weight: vars.$font-weight-medium;
       padding: vars.$spacing-sm vars.$spacing-md;
-      transition: color 0.2s ease;
+      transition: color 0.2s ease, font-size 0.2s ease; // Added font-size transition
 
       &:hover {
         color: vars.$color-primary;
@@ -551,37 +573,21 @@
         color: vars.$color-primary;
         font-weight: vars.$font-weight-semibold;
       }
+
+      // --- NEW ---
+      // Use smaller font size on desktop screens smaller than 1350px
+      @media (max-width: 1349px) {
+        font-size: 14px; // Or another suitable smaller size
+      }
+      // --- END NEW ---
     }
   }
 }
 
-.desktopSearchButton {
-  display: none;
-
-  @include mixins.desktop {
-    display: flex;
-    background: none;
-    border: none;
-    padding: vars.$spacing-sm;
-    margin: vars.$spacing-sm * -1;
-    cursor: pointer;
-    color: vars.$color-text-secondary;
-
-    svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    &:hover {
-      color: vars.$color-text-primary;
-    }
-
-    &:focus-visible {
-      outline: 2px solid vars.$color-primary;
-      outline-offset: 2px;
-      border-radius: vars.$border-radius-sm;
-    }
-  }
+.desktopActions {
+  align-items: center;
+  gap: vars.$spacing-md;
+  display: flex; // Ensure this is flex by default on desktop
 }
 
 .desktopSearchWrapper {
@@ -616,25 +622,28 @@
 }
 
 .desktopSearchButton {
-  display: flex;
-  align-items: center;
-  gap: vars.$spacing-sm;
-  padding: vars.$spacing-md vars.$spacing-lg;
-  border: 2px solid #154b50;
-  background-color: #154b50;
-  border-radius: vars.$border-radius-sm;
-  color: vars.$color-white;
-  &:hover {
-    color: white;
-    background-color: #585656;
-  }
-
-  .whiteIcon {
+  display: none;
+  @media (min-width: 1350px) {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-sm;
+    padding: vars.$spacing-md vars.$spacing-lg;
+    border: 2px solid #154b50;
+    background-color: #154b50;
+    border-radius: vars.$border-radius-sm;
     color: vars.$color-white;
-  }
+    &:hover {
+      color: white;
+      background-color: #585656;
+    }
 
-  svg {
-    width: 12px;
-    height: 12px;
+    .whiteIcon {
+      color: vars.$color-white;
+    }
+
+    svg {
+      width: 12px;
+      height: 12px;
+    }
   }
 }

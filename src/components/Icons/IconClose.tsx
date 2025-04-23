@@ -1,14 +1,13 @@
-// src/components/Icons/IconHamburger.tsx
+// src/components/Icons/IconClose.tsx
 import React from "react";
 
 const IconClose = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="120"
-    height="120"
-    viewBox="0 0 120 120"
+    width="33"
+    height="76"
+    viewBox="0 0 33 76"
     fill="none"
-    {...props}
   >
     <path
       fillRule="evenodd"
