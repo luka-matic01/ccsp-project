@@ -20,8 +20,15 @@
     "ariaHomepage": "Aller à la page d'accueil CCSP",
     "currentLang": "FR"
   },
-  "HomePage": {
-    "title": "Conseil central de surveillance de la prison",
-    "about": "Le Conseil central de surveillance de la prison (CCSP) est un organe consultatif indépendant qui contribue à améliorer la qualité des soins et des services dans les prisons."
+  "HomePageHero": {
+    "heroImageAlt": "Illustration représentant des personnes et des bâtiments",
+    "heroTitlePart1": "Garantir",
+    "heroTitleUnderline1": "les droits",
+    "heroTitlePart2": "et",
+    "heroTitleUnderline2": "la dignité humaine",
+    "heroTitlePart3": "des personnes détenues",
+    "heroSubtitle": "Le Conseil central de surveillance pénitentiaire et 36 commissions de surveillance exercent une surveillance indépendante des prisons et du traitement réservé aux personnes détenues.",
+    "heroSearchPlaceholder": "Cherchez un mot-clé",
+    "heroSearchButtonAriaLabel": "Lancer la recherche"
   }
 }

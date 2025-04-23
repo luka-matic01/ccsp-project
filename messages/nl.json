@@ -20,8 +20,15 @@
     "ariaHomepage": "Ga naar de CCSP startpagina",
     "currentLang": "NL"
   },
-  "HomePage": {
-    "title": "Centrale Raad voor de Gevangenis",
-    "about": "De Centrale Raad voor de Gevangenis (CCSP) is een onafhankelijke adviserende organisatie die bijdraagt aan het verbeteren van de kwaliteit van zorg en diensten in gevangenissen."
+  "HomePageHero": {
+    "heroImageAlt": "Illustration représentant des personnes et des bâtiments",
+    "heroTitlePart1": "Garantir",
+    "heroTitleUnderline1": "les droits",
+    "heroTitlePart2": "et",
+    "heroTitleUnderline2": "la dignité humaine",
+    "heroTitlePart3": "des personnes détenues",
+    "heroSubtitle": "Le Conseil central de surveillance pénitentiaire et 36 commissions de surveillance exercent une surveillance indépendante des prisons et du traitement réservé aux personnes détenues.",
+    "heroSearchPlaceholder": "Cherchez un mot-clé",
+    "heroSearchButtonAriaLabel": "Lancer la recherche"
   }
 }

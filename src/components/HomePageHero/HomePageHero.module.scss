@@ -1,0 +1,201 @@
+// src/components/HomePageHero/HomePageHero.module.scss
+// Make sure the filename matches the import in the TSX file
+@use "@/styles/variables" as vars;
+@use "@/styles/mixins" as mixins;
+
+.hero {
+  overflow-x: hidden; // IMPORTANT: Prevent horizontal scroll from image bleed
+
+  @include mixins.mobile {
+    padding: vars.$spacing-lg 0; // Adjust vertical padding for mobile
+  }
+}
+
+.container {
+  max-width: 1920px;
+  margin: 0 auto;
+  // Mobile: Apply standard side padding here
+
+  display: flex;
+  flex-direction: column; // Mobile: Stack vertically
+  align-items: center; // Center items horizontally on mobile
+  gap: vars.$spacing-lg; // Gap for mobile
+
+  justify-content: center;
+
+  @include mixins.desktop {
+    // Desktop: Use standard container side padding for centering & calculations
+    padding: 0 vars.$container-padding-desktop;
+    flex-direction: row; // Desktop: Side-by-side
+    justify-content: space-between; // Let flexbox handle spacing initially
+    align-items: center; // Vertically align items in the row
+  }
+}
+
+.imageWrapper {
+  width: 100%; // Mobile: Full width within padding
+  max-width: 340px; // Limit image width on mobile
+  flex-shrink: 0; // Prevent shrinking on mobile if container is flex
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto; // Maintain aspect ratio
+    border-radius: vars.$border-radius-md; // Standard radius for mobile
+  }
+
+  @include mixins.desktop {
+    order: 2; // Image on the right
+    // Assign a relative width. Adjust this percentage based on visual preference
+    // It should account for the gap defined in .container
+    width: 55%;
+    // Allow the wrapper to extend beyond its container's padding boundary
+    margin-right: calc(-1 * vars.$container-padding-desktop);
+    max-width: none; // Remove any mobile max-width constraints
+    align-self: stretch; // Make wrapper stretch vertically to match content height if needed
+
+    img {
+      width: 100%; // Image takes full width of its *modified* wrapper
+      height: 100%; // Make image fill the height of the stretched wrapper
+      object-fit: cover; // Cover ensures the image fills without distortion
+      border-radius: 0; // Remove radius on the bleeding edge
+      border-top-left-radius: vars.$border-radius-md; // Keep radius on the inner top corner
+      border-bottom-left-radius: vars.$border-radius-md; // Keep radius on the inner bottom corner
+    }
+  }
+}
+
+.contentWrapper {
+  // Mobile: Already centered by .container styles
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-lg;
+  width: 100%; // Take full width within mobile padding
+
+  @include mixins.mobile {
+    align-items: center;
+    text-align: center;
+  }
+
+  @include mixins.biggest-desktop {
+    padding-left: 200px;
+  }
+
+  @include mixins.desktop {
+    order: 1; // Content on the left
+    // Assign remaining width. Needs to account for the gap.
+    // e.g., if imageWrapper is 55%, this could be 45% minus adjustments for gap.
+    // Using flex-basis is often better here.
+    flex-basis: 50%; // Adjust this percentage as needed
+    flex-shrink: 0; // Prevent shrinking
+    width: auto; // Override mobile width: 100%
+    text-align: left;
+    align-items: flex-start;
+    gap: vars.$spacing-xl; // Larger gap for desktop text elements
+  }
+}
+
+// --- Title, Subtitle, SearchBar styles remain largely the same ---
+// --- Add max-widths for desktop text readability if needed ---
+
+.title {
+  font-family: "Host Grotesk", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  font-feature-settings: "ss03" on;
+  color: #2a2a2a;
+
+  // Mobile styles
+  font-size: 30px;
+  line-height: 1.2;
+
+  @include mixins.mobile {
+    max-width: 335px;
+  }
+
+  @include mixins.desktop {
+    font-size: 42px;
+    line-height: 1.25;
+    max-width: 480px; // Optional: Constrain title width on desktop
+  }
+}
+
+.titleUnderline {
+  text-decoration: underline;
+}
+
+.subtitle {
+  line-height: 1.5;
+  color: vars.$color-text-secondary;
+
+  // Mobile styles
+  @include mixins.mobile {
+    font-size: 14px;
+    max-width: 335px;
+  }
+
+  // Desktop styles
+  @include mixins.desktop {
+    font-size: 16px;
+    max-width: 500px; // Optional: Constrain subtitle width on desktop
+  }
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #154b50;
+  border: 1px solid #154b50;
+  border-radius: vars.$border-radius-md;
+  padding: vars.$spacing-xs vars.$spacing-xs vars.$spacing-xs vars.$spacing-md;
+  width: 100%;
+
+  @include mixins.mobile {
+    max-width: 335px;
+  }
+
+  @include mixins.desktop {
+    max-width: 450px; // Adjust max width for desktop search bar if needed
+  }
+}
+
+.searchText {
+  font-size: 14px;
+  color: vars.$color-white;
+  font-weight: vars.$font-weight-medium;
+  flex-grow: 1;
+  margin-right: vars.$spacing-sm;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.searchButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0b828a;
+  border: none;
+  border-radius: vars.$border-radius-sm;
+  padding: vars.$spacing-sm;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    color: vars.$color-white;
+    display: block;
+  }
+
+  &:hover {
+    background-color: lighten(#0b828a, 5%);
+  }
+
+  &:focus-visible {
+    outline: 2px solid vars.$color-white;
+    outline-offset: 1px;
+  }
+}

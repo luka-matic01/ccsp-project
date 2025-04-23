@@ -13,6 +13,12 @@
   }
 }
 
+@mixin biggest-desktop {
+  @media (min-width: 1920px) {
+    @content;
+  }
+}
+
 @mixin buttonBaseStyles {
   display: block;
   text-align: center;

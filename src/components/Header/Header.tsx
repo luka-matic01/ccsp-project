@@ -173,7 +173,7 @@ const Header = () => {
                 </button>
 
                 <button className={styles.desktopSearchButton}>
-                  Je suis détenu(e)
+                  {t("mainAction")}
                   <IconButton className={styles.whiteIcon} />
                 </button>
               </div>
@@ -228,7 +228,7 @@ const Header = () => {
 
           <div className={styles.mobileMenuMainAction}>
             <button className={styles.mainActionButton}>
-              Je suis détenu(e)
+              {t("mainAction")}
               <IconButton className={styles.whiteIcon} />
             </button>
           </div>
