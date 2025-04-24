@@ -8,6 +8,7 @@ const IconClose = (props: React.SVGProps<SVGSVGElement>) => (
     height="76"
     viewBox="0 0 33 76"
     fill="none"
+    {...props}
   >
     <path
       fillRule="evenodd"

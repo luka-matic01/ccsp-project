@@ -52,7 +52,7 @@ const Header = () => {
     setOpenDropdown(null); // Close dropdown when mobile menu toggles
   };
 
-  const handleDropdownToggle = (key: string, isMobile: boolean = false) => {
+  const handleDropdownToggle = (key: string) => {
     setOpenDropdown((prev) => (prev === key ? null : key));
   };
 
@@ -119,7 +119,7 @@ const Header = () => {
                 }`}
                 onClick={(e) => {
                   if (isMobile) e.stopPropagation();
-                  handleDropdownToggle(item.translationKey, isMobile);
+                  handleDropdownToggle(item.translationKey);
                 }}
                 aria-expanded={isDropdownOpen}
                 aria-haspopup="true"
