@@ -2,6 +2,7 @@
 // Make sure the filename matches the import in the TSX file
 @use "@/styles/variables" as vars;
 @use "@/styles/mixins" as mixins;
+@use "sass:color";
 
 .hero {
   overflow-x: hidden; // IMPORTANT: Prevent horizontal scroll from image bleed
@@ -240,7 +241,7 @@
   }
 
   &:hover {
-    background-color: lighten(#0b828a, 5%);
+    background-color: color.scale(#0b828a, $lightness: 5%);
   }
 
   &:focus-visible {

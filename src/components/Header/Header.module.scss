@@ -1,6 +1,7 @@
 // src/components/Header/Header.module.scss
 @use "@/styles/variables" as vars;
 @use "@/styles/mixins" as mixins;
+@use "sass:color";
 
 .headerAbsoluteWrapper {
   position: absolute;
@@ -117,11 +118,11 @@
 
 .headerNavSection {
   display: none;
+  padding-right: 48px;
 
   @include mixins.biggest-desktop {
     padding-right: 96px;
   }
-  padding-right: 48px;
   @include mixins.desktop {
     display: flex;
     flex: 1 1 auto;
@@ -319,7 +320,7 @@
 
       &:hover,
       &.activeLink {
-        color: lighten(#2a2a2a, 20%);
+        color: color.scale(#2a2a2a, $lightness: 20%);
       }
     }
   }
@@ -344,7 +345,7 @@
     font-weight: vars.$font-weight-regular;
     padding: vars.$spacing-xs 0;
     &:hover {
-      color: lighten(#2a2a2a, 20%);
+      color: color.scale(#2a2a2a, $lightness: 20%);
     }
   }
 }
@@ -381,7 +382,10 @@
   }
 
   &:hover {
-    background-color: lighten(vars.$menu-panel-action-button-bg, 10%);
+    background-color: color.scale(
+      vars.$menu-panel-action-button-bg,
+      $lightness: 10%
+    );
   }
 
   &:focus-visible {
@@ -512,7 +516,7 @@
     }
 
     &:hover {
-      background-color: lighten(#0b828a, 5%);
+      background-color: color.scale(#0b828a, $lightness: 5%);
     }
 
     &:focus-visible {
@@ -545,7 +549,7 @@
     }
 
     &:hover {
-      background-color: lighten(#154b50, 8%);
+      background-color: color.scale(#154b50, $lightness: 8%);
     }
 
     &:focus-visible {
@@ -793,7 +797,7 @@
 
     &:hover,
     &.dropdownToggleOpen {
-      color: lighten(#2a2a2a, 20%);
+      color: color.scale(#2a2a2a, $lightness: 20%);
     }
   }
 }
@@ -900,11 +904,11 @@
         width: auto;
         font-size: 16px;
         font-weight: vars.$font-weight-regular;
-        color: darken(#2a2a2a, 10%);
+        color: color.scale(#2a2a2a, $lightness: -10%);
         padding: vars.$spacing-xs 0;
 
         &:hover {
-          color: lighten(#2a2a2a, 20%);
+          color: color.scale(#2a2a2a, $lightness: 20%);
         }
       }
     }

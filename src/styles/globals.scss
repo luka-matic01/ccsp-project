@@ -2,6 +2,7 @@
 @use "reset"; // <-- IMPORT THE RESET FIRST
 @use "variables" as vars;
 @use "mixins" as mixins;
+@use "sass:color";
 
 body {
   color: vars.$color-text-primary;

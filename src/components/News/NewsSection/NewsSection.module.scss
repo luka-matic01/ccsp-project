@@ -1,13 +1,15 @@
 // src/components/NewsSection/NewsSection.module.scss (Create this new file)
 @use "@/styles/variables" as vars;
 @use "@/styles/mixins" as mixins;
+@use "sass:color";
 
 .newsSection {
   padding: 120px 0; // Vertical padding for the section
+  background-color: vars.$color-background; // Or transparent depending on page design
+
   @include mixins.desktop {
     padding: 240px 0;
   }
-  background-color: vars.$color-background; // Or transparent depending on page design
 }
 
 // Optional container for centering content if needed
@@ -56,6 +58,7 @@
   overflow-x: auto; // Enable horizontal scrolling
   padding-bottom: vars.$spacing-md; // Space for scrollbar if it appears
   margin-bottom: vars.$spacing-xl; // Space below posts before button
+  text-align: left; // Ensure cards inside align left
 
   // Improve scroll experience
   -webkit-overflow-scrolling: touch; // Smooth scrolling on iOS
@@ -86,8 +89,6 @@
   @include mixins.news-section-desktop {
     justify-content: center;
   }
-
-  text-align: left; // Ensure cards inside align left
 }
 
 .noPostsMessage {
@@ -117,7 +118,7 @@
   // margin: 0 auto; // text-align on parent handles centering now
 
   &:hover {
-    background-color: lighten(#154b50, 10%);
+    background-color: color.scale(#154b50, $lightness: 10%);
   }
 
   &:focus-visible {
