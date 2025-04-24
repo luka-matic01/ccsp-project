@@ -27,7 +27,6 @@ const HomePageHero = () => {
 
   const handleSearchClick = () => {
     console.log("Search button clicked");
-    // TODO: Implement search action
   };
 
   return (

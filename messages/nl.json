@@ -6,7 +6,8 @@
     "navDroit": "Klachtrecht",
     "navPublications": "Publicaties",
     "navMecanisme": "Preventiemechanisme",
-
+    "primaryNavLabel": "Hoofdmenu",
+    "secondaryNavLabel": "Secundaire menu",
     "navActualites": "Actualiteiten",
     "navJurisprudence": "Jurisprudentie",
     "navJob": "Job",
@@ -21,7 +22,10 @@
     "ariaHomepage": "Ga naar de CCSP startpagina",
     "currentLang": "NL",
     "ariaNavPrimary": "Primaire navigatie",
-    "ariaNavSecondary": "Secundaire navigatie"
+    "ariaNavSecondary": "Secundaire navigatie",
+    "quickLinksTitle": "Snelle links",
+    "legalTitle": "Juridisch",
+    "footerDevenirMembre": "Word lid"
   },
   "Footer": {
     "coordinatesTitle": "Coördinaten",

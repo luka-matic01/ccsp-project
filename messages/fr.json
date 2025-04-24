@@ -22,7 +22,10 @@
     "ariaHomepage": "Aller à la page d'accueil CCSP",
     "currentLang": "FR",
     "ariaNavPrimary": "Navigation principale",
-    "ariaNavSecondary": "Navigation secondaire"
+    "ariaNavSecondary": "Navigation secondaire",
+    "quickLinksTitle": "Accès rapides",
+    "legalTitle": "Légal",
+    "footerDevenirMembre": "Devenir membre"
   },
   "HomePageHero": {
     "heroImageAlt": "Illustration représentant des personnes et des bâtiments",

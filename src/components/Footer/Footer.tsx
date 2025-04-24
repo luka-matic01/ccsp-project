@@ -2,214 +2,87 @@
 "use client";
 
 import React from "react";
-import { useLocale, useTranslations } from "next-intl";
-import { Link, usePathname } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import styles from "./Footer.module.scss";
 
-import IconLogo from "../Icons/IconLogo";
-import IconLinkedIn from "../Icons/IconLinkedIn";
-import IconYoutube from "../Icons/IconYoutube";
-import Image from "next/image";
-
-// Import navigation config
+// Import navigation config needed for Link Lists
 import {
   quickLinksCol1,
   quickLinksCol2,
   legalLinks,
-  socialLinks,
 } from "@/config/navigation";
 
+// Import New Components
+import FooterLogo from "./FooterLogo";
+import FooterAddress from "./FooterAddress";
+import FooterLinkList from "./FooterLinkList";
+import FooterBottomSection from "./FooterBottomSection";
+
 const Footer = () => {
-  const t = useTranslations("Footer");
   const tHeader = useTranslations("Header");
-  const locale = useLocale();
-  const pathname = usePathname();
-  const currentYear = new Date().getFullYear();
+  const tFooter = useTranslations("Footer");
 
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
         {/* Mobile Only Logo */}
         <div className={styles.mobileLogoWrapper}>
-          <Link href="/" aria-label={tHeader("ariaHomepage")}>
-            <IconLogo className={styles.footerLogoSvg} />
-          </Link>
+          <FooterLogo ariaLabel={tHeader("ariaHomepage")} />
         </div>
 
         {/* Main Content Area */}
         <div className={styles.mainContentRow}>
           {/* Desktop Only Logo */}
           <div className={styles.desktopLogoWrapper}>
-            <Link href="/" aria-label={tHeader("ariaHomepage")}>
-              <IconLogo className={styles.footerLogoSvg} />
-            </Link>
+            <FooterLogo ariaLabel={tHeader("ariaHomepage")} />
           </div>
 
           {/* Coordinates Section */}
-          <div className={styles.column}>
-            <h3 className={styles.sectionTitle}>{t("coordinatesTitle")}</h3>
-            <address className={styles.address}>
-              <span>Rue de Louvain, 48/2, 1000 Bruxelles</span>
-              <a href="mailto:info@ccsp-belgium.be">info@ccsp-belgium.be</a>
-              <a href="tel:+3225499470">+32 (0)2 549 94 70</a>
-            </address>
-          </div>
+          <FooterAddress />
 
-          {/* Quick Links Section */}
+          {/* Quick Links Section - ADJUSTED */}
           <div className={`${styles.column} ${styles.quickLinksWrapper}`}>
-            <h3 className={styles.sectionTitle}>{t("quickLinksTitle")}</h3>
+            {/* Render the title directly here */}
+            <h3 className={styles.sectionTitle}>
+              {tFooter("quickLinksTitle")}
+            </h3>
+            {/* This div will now correctly get the border-top on desktop via .quickLinksColumns */}
             <div className={styles.quickLinksColumns}>
-              {/* Column 1 */}
-              <nav
-                className={styles.quickLinksList}
-                aria-label={t("quickLinksTitle")}
-              >
-                <ul>
-                  {quickLinksCol1.map((link) => (
-                    <li key={link.key}>
-                      <Link href="/">{tHeader(link.key)}</Link>
-
-                      {/* If there are subitems, render them in a nested ul */}
-                      {link.subItems && link.subItems.length > 0 && (
-                        <ul className={styles.quickLinkSubitemList}>
-                          {link.subItems.map((subItem) => (
-                            <li
-                              key={subItem.key}
-                              className={styles.quickLinkSubitem}
-                            >
-                              <Link href={subItem.href}>
-                                {tHeader(subItem.key)}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-              {/* Column 2 */}
-              <nav
-                className={styles.quickLinksList}
-                aria-label={t("quickLinksTitle") + " 2"}
-              >
-                <ul>
-                  {quickLinksCol2.map((link) => (
-                    <li key={link.key}>
-                      <Link href="/">
-                        {t.rich(link.key, { default: () => tHeader(link.key) })}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
+              {/* Column 1 - REMOVED titleKey */}
+              <FooterLinkList
+                // titleKey="quickLinksTitle" // REMOVED
+                ariaLabel={tFooter("quickLinksTitle")} // Keep aria-label for accessibility
+                links={quickLinksCol1}
+                listClassName={styles.quickLinksList}
+                useHeaderTranslations={true}
+              />
+              {/* Column 2 - REMOVED titleKey */}
+              <FooterLinkList
+                ariaLabel={tFooter("quickLinksTitle") + " 2"} // Keep aria-label
+                links={quickLinksCol2}
+                listClassName={styles.quickLinksList}
+                useHeaderTranslations={true}
+              />
             </div>
           </div>
+          {/* END ADJUSTMENT */}
 
-          {/* Separator before Legal (Desktop Only) */}
-          <hr
-            className={`${styles.separator} ${styles.desktopOnlySeparator}`}
+          {/* Legal Section - Pass titleKey as before */}
+          <FooterLinkList
+            titleKey="legalTitle" // Keep titleKey here as it's a single list section
+            ariaLabel={tFooter("legalTitle")}
+            links={legalLinks}
+            listClassName={styles.legalLinksList}
+            useHeaderTranslations={false}
           />
-
-          {/* Legal Section */}
-          <div className={styles.column}>
-            <h3 className={styles.sectionTitle}>{t("legalTitle")}</h3>
-            <nav className={styles.legalLinksList} aria-label={t("legalTitle")}>
-              <ul>
-                {legalLinks.map((link) => (
-                  <li key={link.key}>
-                    <Link href="/">{t(link.key)}</Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </div>
         </div>
 
-        {/* Bottom Section with RESTRUCTURED layout */}
-        <div className={styles.footerBottom}>
-          {/* Social Links (Left side on both mobile and desktop) */}
-          <div className={styles.socialLangRow}>
-            <div className={styles.socialLinks}>
-              {socialLinks.map((social) => (
-                <a
-                  key={social.platform}
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.socialLink}
-                  aria-label={t(social.ariaKey)}
-                >
-                  {social.platform === "LinkedIn" ? (
-                    <div className={styles.socialLinkIcon}>
-                      <IconLinkedIn /> LinkedIn
-                    </div>
-                  ) : (
-                    <div className={styles.socialLinkIcon}>
-                      <IconYoutube /> YouTube
-                    </div>
-                  )}
-                </a>
-              ))}
-            </div>
+        {/* Separators remain for layout */}
+        {/* Removed redundant separator - only one needed between main content and bottom */}
+        <hr className={`${styles.separator} ${styles.desktopOnlySeparator}`} />
 
-            {/* Language Switcher - Only visible on MOBILE */}
-            <div
-              className={styles.langSwitcher + " " + styles.mobileLangSwitcher}
-            >
-              <Link
-                href={pathname}
-                locale="nl"
-                className={
-                  locale === "nl" ? styles.langLinkActive : styles.langLink
-                }
-              >
-                NL
-              </Link>
-              <Link
-                href={pathname}
-                locale="fr"
-                className={
-                  locale === "fr" ? styles.langLinkActive : styles.langLink
-                }
-              >
-                FR
-              </Link>
-            </div>
-          </div>
-
-          {/* Copyright and Desktop Language (right side on desktop, full row on mobile) */}
-          <div className={styles.copyrightRow}>
-            {/* Copyright */}
-            <small className={styles.copyright}>
-              {t("copyright", { year: currentYear })}
-            </small>
-
-            {/* Language Switcher - Only visible on DESKTOP */}
-            <div
-              className={styles.langSwitcher + " " + styles.desktopLangSwitcher}
-            >
-              <Link
-                href={pathname}
-                locale="nl"
-                className={
-                  locale === "nl" ? styles.langLinkActive : styles.langLink
-                }
-              >
-                NL
-              </Link>
-              <Link
-                href={pathname}
-                locale="fr"
-                className={
-                  locale === "fr" ? styles.langLinkActive : styles.langLink
-                }
-              >
-                FR
-              </Link>
-            </div>
-          </div>
-        </div>
+        {/* Bottom Section */}
+        <FooterBottomSection />
       </div>
     </footer>
   );
