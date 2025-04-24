@@ -117,7 +117,7 @@ const Header = () => {
                 {item.subItems?.map((subItem) => (
                   <li key={subItem.translationKey}>
                     <Link
-                      href={subItem.href}
+                      href="/"
                       onClick={() => {
                         if (isMobileMenuOpen) toggleMobileMenu();
                         setOpenDropdown(null);
@@ -131,7 +131,7 @@ const Header = () => {
             </>
           ) : (
             <Link
-              href={item.href}
+              href="/"
               className={pathname === item.href ? styles.activeLink : ""}
               onClick={toggleMobileMenu}
             >
@@ -146,7 +146,7 @@ const Header = () => {
   const renderSecondaryMenuNavLinks = () => {
     return secondaryMenuNavigationConfig.map((item) => (
       <li key={item.href}>
-        <Link href={item.href} onClick={toggleMobileMenu}>
+        <Link href="/" onClick={toggleMobileMenu}>
           {t(item.translationKey)}
         </Link>
       </li>

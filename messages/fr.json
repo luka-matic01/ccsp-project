@@ -19,7 +19,9 @@
     "search": "Recherche",
     "mainAction": "Je suis détenu(e)",
     "ariaHomepage": "Aller à la page d'accueil CCSP",
-    "currentLang": "FR"
+    "currentLang": "FR",
+    "ariaNavPrimary": "Navigation principale",
+    "ariaNavSecondary": "Navigation secondaire"
   },
   "HomePageHero": {
     "heroImageAlt": "Illustration représentant des personnes et des bâtiments",
@@ -39,6 +41,10 @@
     "coordinatesTitle": "Coordonnées",
     "quickLinksTitle": "Accès rapides",
     "legalTitle": "Légal",
+    "navActualites": "Actualités",
+    "navJurisprudence": "Jurisprudence",
+    "navContact": "Contact",
+    "navLiens": "Liens utiles",
     "footerCCSP": "CCSP",
     "footerCommissions": "Commissions de surveillance",
     "footerDevenirMembre": "Devenir membre",

@@ -19,7 +19,27 @@
     "search": "Zoeken",
     "mainAction": "Ik ben gedetineerd(e)",
     "ariaHomepage": "Ga naar de CCSP startpagina",
-    "currentLang": "NL"
+    "currentLang": "NL",
+    "ariaNavPrimary": "Primaire navigatie",
+    "ariaNavSecondary": "Secundaire navigatie"
+  },
+  "Footer": {
+    "coordinatesTitle": "Coördinaten",
+    "quickLinksTitle": "Snelle links",
+    "legalTitle": "Juridisch",
+    "navActualites": "Actualiteiten",
+    "navJurisprudence": "Jurisprudentie",
+    "navContact": "Contact",
+    "navLiens": "Nuttige links",
+    "footerCCSP": "CCSP",
+    "footerCommissions": "Commissies van toezicht",
+    "footerDevenirMembre": "Word lid",
+    "footerPolicyConfidentiality": "Privacybeleid",
+    "footerPolicyCookies": "Cookiebeleid",
+    "footerTerms": "Algemene voorwaarden",
+    "linkedinAria": "Bezoek onze LinkedIn pagina",
+    "youtubeAria": "Bezoek ons YouTube kanaal",
+    "copyright": "©{year} CCSP Alle rechten voorbehouden."
   },
   "HomePageHero": {
     "heroImageAlt": "Illustratie van mensen en gebouwen",

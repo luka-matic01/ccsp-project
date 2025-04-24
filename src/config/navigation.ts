@@ -30,9 +30,14 @@ export const secondaryMenuNavigationConfig = [
 // --- Footer Quick Links ---
 export const quickLinksCol1 = [
   { href: "/conseil-central", key: "navConseil" },
-  { href: "/ccsp", key: "navSurveillance" },
-  { href: "/ccsp", key: "footerCCSP" },
-  { href: "/commissions", key: "footerCommissions" },
+  {
+    href: "#",
+    key: "navSurveillance",
+    subItems: [
+      { href: "/ccsp", key: "subNavSurveillance1" },
+      { href: "/commissions", key: "subNavSurveillance2" },
+    ],
+  },
   { href: "/avis", key: "navAvis" },
   { href: "/droit-de-plainte", key: "navDroit" },
   { href: "/publications", key: "navPublications" },

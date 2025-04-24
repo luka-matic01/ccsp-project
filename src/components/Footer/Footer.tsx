@@ -20,8 +20,8 @@ import {
 } from "@/config/navigation";
 
 const Footer = () => {
-  const t = useTranslations("Footer"); // Namespace for Footer translations
-  const tHeader = useTranslations("Header"); // Namespace for Header nav translations
+  const t = useTranslations("Footer");
+  const tHeader = useTranslations("Header");
   const locale = useLocale();
   const pathname = usePathname();
   const currentYear = new Date().getFullYear();
@@ -55,9 +55,6 @@ const Footer = () => {
             </address>
           </div>
 
-          {/* Separator Before Quick Links (Mobile Only) */}
-          <hr className={`${styles.separator} ${styles.mobileOnlySeparator}`} />
-
           {/* Quick Links Section */}
           <div className={`${styles.column} ${styles.quickLinksWrapper}`}>
             <h3 className={styles.sectionTitle}>{t("quickLinksTitle")}</h3>
@@ -70,8 +67,23 @@ const Footer = () => {
                 <ul>
                   {quickLinksCol1.map((link) => (
                     <li key={link.key}>
-                      {/* Assuming keys match Header translations */}
-                      <Link href={link.href}>{tHeader(link.key)}</Link>
+                      <Link href="/">{tHeader(link.key)}</Link>
+
+                      {/* If there are subitems, render them in a nested ul */}
+                      {link.subItems && link.subItems.length > 0 && (
+                        <ul className={styles.quickLinkSubitemList}>
+                          {link.subItems.map((subItem) => (
+                            <li
+                              key={subItem.key}
+                              className={styles.quickLinkSubitem}
+                            >
+                              <Link href={subItem.href}>
+                                {tHeader(subItem.key)}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -84,8 +96,7 @@ const Footer = () => {
                 <ul>
                   {quickLinksCol2.map((link) => (
                     <li key={link.key}>
-                      {/* Use t.rich to fallback gracefully */}
-                      <Link href={link.href}>
+                      <Link href="/">
                         {t.rich(link.key, { default: () => tHeader(link.key) })}
                       </Link>
                     </li>
@@ -95,8 +106,10 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Separator Before Legal (Mobile Only) */}
-          <hr className={`${styles.separator} ${styles.mobileOnlySeparator}`} />
+          {/* Separator before Legal (Desktop Only) */}
+          <hr
+            className={`${styles.separator} ${styles.desktopOnlySeparator}`}
+          />
 
           {/* Legal Section */}
           <div className={styles.column}>
@@ -105,7 +118,7 @@ const Footer = () => {
               <ul>
                 {legalLinks.map((link) => (
                   <li key={link.key}>
-                    <Link href={link.href}>{t(link.key)}</Link>
+                    <Link href="/">{t(link.key)}</Link>
                   </li>
                 ))}
               </ul>
@@ -113,13 +126,10 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Separator (Desktop Only - Below Main Content) */}
-        <hr className={`${styles.separator} ${styles.desktopOnlySeparator}`} />
-
-        {/* Bottom Section (Social, Copyright, Lang) */}
+        {/* Bottom Section with RESTRUCTURED layout */}
         <div className={styles.footerBottom}>
+          {/* Social Links (Left side on both mobile and desktop) */}
           <div className={styles.socialLangRow}>
-            {/* Social Links */}
             <div className={styles.socialLinks}>
               {socialLinks.map((social) => (
                 <a
@@ -131,20 +141,22 @@ const Footer = () => {
                   aria-label={t(social.ariaKey)}
                 >
                   {social.platform === "LinkedIn" ? (
-                    <IconLinkedIn />
+                    <div className={styles.socialLinkIcon}>
+                      <IconLinkedIn /> LinkedIn
+                    </div>
                   ) : (
-                    <IconYoutube />
+                    <div className={styles.socialLinkIcon}>
+                      <IconYoutube /> YouTube
+                    </div>
                   )}
-                  <span>{social.platform}</span>
                 </a>
               ))}
             </div>
 
-            {/* Language Switcher (Desktop) */}
+            {/* Language Switcher - Only visible on MOBILE */}
             <div
-              className={`${styles.langSwitcher} ${styles.desktopLangSwitcher}`}
+              className={styles.langSwitcher + " " + styles.mobileLangSwitcher}
             >
-              {/* Language Links */}
               <Link
                 href={pathname}
                 locale="nl"
@@ -166,17 +178,17 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className={styles.copyrightLangRow}>
+          {/* Copyright and Desktop Language (right side on desktop, full row on mobile) */}
+          <div className={styles.copyrightRow}>
             {/* Copyright */}
             <small className={styles.copyright}>
               {t("copyright", { year: currentYear })}
             </small>
 
-            {/* Language Switcher (Mobile) */}
+            {/* Language Switcher - Only visible on DESKTOP */}
             <div
-              className={`${styles.langSwitcher} ${styles.mobileLangSwitcher}`}
+              className={styles.langSwitcher + " " + styles.desktopLangSwitcher}
             >
-              {/* Language Links */}
               <Link
                 href={pathname}
                 locale="nl"
