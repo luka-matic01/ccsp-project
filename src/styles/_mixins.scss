@@ -25,6 +25,18 @@
   }
 }
 
+@mixin news-section-desktop {
+  @media (min-width: 1600px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+
 @mixin buttonBaseStyles {
   display: block;
   text-align: center;

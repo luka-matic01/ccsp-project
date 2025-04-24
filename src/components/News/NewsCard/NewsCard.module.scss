@@ -1,0 +1,126 @@
+@use "@/styles/variables" as vars;
+@use "@/styles/mixins" as mixins;
+
+.card {
+  background-color: vars.$color-background-light; // Or #f9f9f9 or similar light grey
+  border-radius: vars.$border-radius-md;
+  overflow: hidden; // Ensure content stays within rounded corners
+  display: flex;
+  flex-direction: column;
+  padding: vars.$spacing-md;
+  // Minimum width for each card
+  width: 320px; // Example fixed width - adjust as needed for desired look
+  scroll-snap-align: start; // For scroll snapping
+  flex: 0 0 auto; // Prevent shrinking/growing in flex container
+  height: 100%; // Make cards fill the vertical space if wrapper has height
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease-in-out;
+  // MOBILE: fixed width = 284px
+  width: 274px;
+  min-width: 274px;
+  max-width: 274px;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  @include mixins.tablet {
+    width: 320px;
+    min-width: 320px;
+    max-width: 320px;
+  }
+
+  // DESKTOP: override to 492px
+  @include mixins.desktop {
+    width: 492px;
+    min-width: auto;
+    max-width: none;
+  }
+}
+
+.imageWrapper {
+  position: relative; // Needed if using fill layout for Image
+  width: 100%;
+}
+
+.image {
+  display: block; // Remove extra space below image
+  width: 100%;
+  height: 100%; // Make sure height matches defined height prop or aspect ratio
+  object-fit: cover; // Ensure image covers the area without distortion
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; // Allow content to take remaining space
+  gap: vars.$spacing-xs;
+}
+
+.tag {
+  display: inline-block; // Fit content
+  background-color: #0b828a; // Example color from screenshot
+  color: vars.$color-white;
+  padding: vars.$spacing-xxs vars.$spacing-sm;
+  border-radius: vars.$border-radius-sm;
+  font-size: 12px;
+  font-weight: vars.$font-weight-medium;
+  margin-bottom: vars.$spacing-xs;
+  align-self: flex-start; // Align tag to the left
+  text-transform: capitalize; // Nicely format category names
+
+  @include mixins.desktop {
+    font-size: 14px;
+  }
+}
+
+.dateText {
+  font-size: 14px;
+  color: #585656;
+  margin-top: auto; // Push to bottom
+
+  @include mixins.desktop {
+    font-size: 16px;
+  }
+}
+
+.title {
+  font-size: 16px; // Adjust size
+  line-height: 1.4;
+  color: #2a2a2a;
+  margin-bottom: auto; // Push linkWrapper to the bottom
+  // Limit lines shown using line-clamp
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @include mixins.desktop {
+    font-size: 18px; // Slightly larger on desktop
+  }
+}
+
+.linkWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; // Pushes icon to the right
+  margin-top: vars.$spacing-sm; // Space above the link/date
+  color: vars.$color-text-secondary; // Match "Consulter" color
+  font-size: 14px;
+  font-weight: vars.$font-weight-medium;
+  cursor: default; // Not interactive for now
+}
+
+.linkIcon {
+  width: 16px;
+  height: 16px;
+  color: vars.$color-text-secondary; // Match text color
+  transform: rotate(-45deg); // Rotate icon like in screenshot
+}
+
+.date {
+  // Alternative style if showing date instead of "Consulter"
+  font-size: 12px;
+  color: vars.$color-text-secondary;
+  margin-top: auto; // Push to bottom
+}

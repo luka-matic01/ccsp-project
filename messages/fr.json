@@ -6,9 +6,8 @@
     "navDroit": "Droit de plainte",
     "navPublications": "Publications",
     "navMecanisme": "Mécanisme de prévention",
-    "subNavSurveillance1": "Surveillance des prisons",
-    "subNavSurveillance2": "Surveillance des établissements pénitentiaires",
-    "subNavSurveillance3": "Surveillance des établissements pénitentiaires",
+    "subNavSurveillance1": "CCSP",
+    "subNavSurveillance2": "Commissions de surveillance",
     "navActualites": "Actualités",
     "navJurisprudence": "Jurisprudence",
     "navJob": "Job",
@@ -31,6 +30,9 @@
     "heroTitlePart3": "des personnes détenues",
     "heroSubtitle": "Le Conseil central de surveillance pénitentiaire et 36 commissions de surveillance exercent une surveillance indépendante des prisons et du traitement réservé aux personnes détenues.",
     "heroSearchPlaceholder": "Cherchez un mot-clé",
-    "heroSearchButtonAriaLabel": "Lancer la recherche"
+    "heroSearchButtonAriaLabel": "Voir toutes les actualités",
+    "heroNoPostsMessage": "Aucune actualité à afficher pour le moment.",
+    "heroViewAllButton": "Voir toutes les actualités",
+    "heroTitle": "Nos dernières actualités"
   }
 }

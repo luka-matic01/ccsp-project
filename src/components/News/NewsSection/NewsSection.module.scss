@@ -1,0 +1,139 @@
+// src/components/NewsSection/NewsSection.module.scss (Create this new file)
+@use "@/styles/variables" as vars;
+@use "@/styles/mixins" as mixins;
+
+.newsSection {
+  padding: 120px 0; // Vertical padding for the section
+  @include mixins.desktop {
+    padding: 240px 0;
+  }
+  background-color: vars.$color-background; // Or transparent depending on page design
+}
+
+// Optional container for centering content if needed
+// If the rest of your page uses a container, apply it here too.
+.container {
+  max-width: vars.$container-max-width-desktop;
+  margin: 0 auto;
+  padding: 0 vars.$container-padding-mobile; // Example mobile padding
+
+  // --- FIX: Center inline/auto-width children like the button on mobile ---
+  text-align: center;
+
+  @include mixins.desktop {
+    padding: 0 vars.$container-padding-desktop; // Example desktop padding
+    text-align: left; // Reset text-align for desktop flex layout
+  }
+
+  // Padding overrides for biggest desktop (ensure they don't conflict with centering)
+  @media (min-width: #{vars.$container-max-width-desktop}) {
+    padding-left: 120px;
+    padding-right: 120px;
+  }
+}
+
+.title {
+  font-size: 20px; // Adjust size
+  font-weight: vars.$font-weight-semibold;
+  color: vars.$color-text-primary;
+  text-align: center;
+  margin-bottom: vars.$spacing-xl; // Space below title
+
+  @include mixins.desktop {
+    font-size: 32px;
+    margin-bottom: vars.$spacing-2xl;
+  }
+
+  @include mixins.biggest-desktop {
+    font-size: 52px;
+  }
+}
+
+.postsWrapper {
+  display: flex;
+  flex-wrap: nowrap; // Never wrap to next row
+  gap: vars.$spacing-lg; // Gap between cards
+  overflow-x: auto; // Enable horizontal scrolling
+  padding-bottom: vars.$spacing-md; // Space for scrollbar if it appears
+  margin-bottom: vars.$spacing-xl; // Space below posts before button
+
+  // Improve scroll experience
+  -webkit-overflow-scrolling: touch; // Smooth scrolling on iOS
+  scroll-snap-type: x mandatory; // Improved scroll behavior
+
+  // Custom scrollbar styling
+  &::-webkit-scrollbar {
+    height: 6px; // Thin scrollbar
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+  }
+
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+
+  // Important: Keep horizontal scrolling on ALL screen sizes
+  @include mixins.desktop {
+    justify-content: flex-start; // Align to start instead of center
+    overflow-x: auto; // Keep scrolling enabled on desktop
+    flex-wrap: nowrap; // Never wrap on any screen size
+    // Keep the same gap as mobile or adjust as needed
+  }
+
+  // Center items when viewport is large enough to fit all 3 items
+  @include mixins.news-section-desktop {
+    justify-content: center;
+  }
+
+  text-align: left; // Ensure cards inside align left
+}
+
+.noPostsMessage {
+  text-align: center;
+  color: vars.$color-text-secondary;
+  padding: vars.$spacing-xl 0;
+}
+
+.viewAllButton {
+  // --- FIX: Change to inline-flex ---
+  display: inline-flex; // Allows text-align: center on parent to work
+  align-items: center;
+  // justify-content: center; // Less critical for inline-flex with auto width
+  gap: vars.$spacing-sm;
+  background-color: #154b50;
+  color: vars.$color-white;
+  padding: vars.$spacing-md vars.$spacing-lg;
+  border: none;
+  border-radius: vars.$border-radius-md;
+  font-size: 14px;
+  font-weight: vars.$font-weight-medium;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  width: auto; // Keep width auto to fit content
+  // margin: 0 auto; // text-align on parent handles centering now
+
+  &:hover {
+    background-color: lighten(#154b50, 10%);
+  }
+
+  &:focus-visible {
+    outline: 2px solid vars.$color-primary;
+    outline-offset: 2px;
+  }
+
+  // 3. Hide on desktop sizes
+  @include mixins.desktop {
+    display: none;
+  }
+}
+
+.viewAllIcon {
+  width: 12px; // Smaller icon for button
+  height: 12px;
+  color: vars.$color-white;
+  transform: rotate(-45deg); // Match card icon rotation
+}

@@ -135,6 +135,15 @@
   align-items: center;
   flex-shrink: 0;
   margin-right: 48;
+
+  @include mixins.desktop {
+    display: none;
+  }
+
+  @media (min-width: 1200px) {
+    display: flex;
+  }
+
   a {
     display: block;
     line-height: 0;
@@ -445,8 +454,8 @@
   .desktopSearchButton {
     display: none; // Hidden by default on wider desktops
 
-    @media (max-width: 1400px) {
-      display: flex; // Reappear below 1400px
+    @media (max-width: 1480px) {
+      display: flex; // Reappear below 1480
     }
 
     // Keep rest of your styling
@@ -694,7 +703,7 @@
 
 .desktopSearchButton {
   display: none;
-  @media (min-width: 1400px) {
+  @media (min-width: 1480px) {
     display: flex;
     align-items: center;
     gap: vars.$spacing-sm;

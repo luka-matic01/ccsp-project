@@ -22,7 +22,6 @@ const menuNavigationConfig = [
     subItems: [
       { href: "/surveillance/sub1", translationKey: "subNavSurveillance1" },
       { href: "/surveillance/sub2", translationKey: "subNavSurveillance2" },
-      { href: "/surveillance/sub3", translationKey: "subNavSurveillance3" },
     ],
   },
   { href: "/avis", translationKey: "navAvis" },

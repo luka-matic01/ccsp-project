@@ -150,6 +150,13 @@
 
 .titleUnderline {
   text-decoration: underline;
+  text-decoration-color: #acacac;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 3px;
+
+  @include mixins.desktop {
+    text-underline-offset: 15px;
+  }
 }
 
 .subtitle {

@@ -12,9 +12,8 @@
     "navJob": "Job",
     "navContact": "Contact",
     "navLiens": "Nuttige links",
-    "subNavSurveillance1": "Toezicht op gevangenissen",
-    "subNavSurveillance2": "Toezicht op gevangenissen",
-    "subNavSurveillance3": "Toezicht op gevangenissen",
+    "subNavSurveillance1": "CCSP",
+    "subNavSurveillance2": "Commissies van toezicht",
     "openMenu": "Hoofdmenu openen",
     "closeMenu": "Hoofdmenu sluiten",
     "search": "Zoeken",
@@ -23,14 +22,17 @@
     "currentLang": "NL"
   },
   "HomePageHero": {
-    "heroImageAlt": "Illustration représentant des personnes et des bâtiments",
-    "heroTitlePart1": "Garantir",
-    "heroTitleUnderline1": "les droits",
-    "heroTitlePart2": "et",
-    "heroTitleUnderline2": "la dignité humaine",
-    "heroTitlePart3": "des personnes détenues",
-    "heroSubtitle": "Le Conseil central de surveillance pénitentiaire et 36 commissions de surveillance exercent une surveillance indépendante des prisons et du traitement réservé aux personnes détenues.",
-    "heroSearchPlaceholder": "Cherchez un mot-clé",
-    "heroSearchButtonAriaLabel": "Lancer la recherche"
+    "heroImageAlt": "Illustratie van mensen en gebouwen",
+    "heroTitlePart1": "Waarborgen",
+    "heroTitleUnderline1": "de rechten",
+    "heroTitlePart2": "en",
+    "heroTitleUnderline2": "de menselijke waardigheid",
+    "heroTitlePart3": "van gedetineerden",
+    "heroSubtitle": "De Centrale Toezichtsraad op het Gevangeniswezen en 36 toezichtcommissies houden onafhankelijk toezicht op de gevangenissen en de behandeling van gedetineerden.",
+    "heroSearchPlaceholder": "Zoek een trefwoord",
+    "heroSearchButtonAriaLabel": "Bekijk alle nieuwsberichten",
+    "heroNoPostsMessage": "Er zijn momenteel geen nieuwsberichten om te tonen.",
+    "heroViewAllButton": "Bekijk alle nieuwsberichten",
+    "heroTitle": "Onze laatste nieuwsberichten"
   }
 }
