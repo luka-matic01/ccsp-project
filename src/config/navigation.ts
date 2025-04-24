@@ -75,3 +75,9 @@ export const socialLinks = [
     ariaKey: "youtubeAria",
   },
 ];
+
+export interface MenuItemConfig {
+  href: string;
+  translationKey: string;
+  subItems?: MenuItemConfig[];
+}

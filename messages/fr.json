@@ -13,7 +13,8 @@
     "navJob": "Job",
     "navContact": "Contact",
     "navLiens": "Liens utiles",
-
+    "primaryNavLabel": "Menu principal",
+    "secondaryNavLabel": "Menu secondaire",
     "openMenu": "Ouvrir le menu principal",
     "closeMenu": "Fermer le menu principal",
     "search": "Recherche",

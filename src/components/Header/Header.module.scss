@@ -29,6 +29,13 @@
   }
 }
 
+.langSwitcherBase {
+  display: flex;
+  align-items: center;
+  gap: vars.$spacing-xs; // Adjust gap as needed
+  justify-content: center;
+}
+
 .headerOuterWrapper {
   z-index: vars.$z-index-header;
   background-color: #f9fcfc;

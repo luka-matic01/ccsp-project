@@ -1,53 +1,66 @@
 // src/components/Header/Header.tsx
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Link, usePathname } from "@/i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation"; // Keep Link/usePathname if needed elsewhere
 import styles from "./Header.module.scss";
 
-import IconLogo from "../Icons/IconLogo";
+// Import Icons needed directly in Header (Hamburger, Search for mobile toggle)
 import IconHamburger from "../Icons/IconHamburger";
-import IconClose from "../Icons/IconClose";
 import IconSearch from "../Icons/IconSearch";
-import IconButton from "../Icons/IconButton";
-import IconChevronDown from "../Icons/IconChevronDown";
-import Image from "next/image";
 
+// Import Config
 import {
   menuNavigationConfig,
   secondaryMenuNavigationConfig,
+  MenuItemConfig, // Import type
 } from "@/config/navigation";
+
+// Import New Components
+import LanguageSwitcher from "./LanguageSwitcher";
+import Logo from "./Logo";
+import NavigationMenu from "./NavigationMenu";
+import HeaderActions from "./HeaderActions";
+import MobileMenuPanel from "./MobileMenuPanel";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const t = useTranslations("Header");
-  const pathname = usePathname();
-  const locale = useLocale();
-  const dropdownRef = useRef<HTMLLIElement | null>(null);
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-    setOpenDropdown(null); // Close dropdown when mobile menu toggles
-  };
+  const navRef = useRef<HTMLDivElement>(null); // Ref for the main nav container for outside click
 
-  const handleDropdownToggle = (key: string) => {
+  const toggleMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen((prev) => {
+      const newState = !prev;
+      if (!newState) {
+        // If closing menu, also close any open dropdown
+        setOpenDropdown(null);
+      }
+      return newState;
+    });
+  }, []);
+
+  const handleDropdownToggle = useCallback((key: string) => {
     setOpenDropdown((prev) => (prev === key ? null : key));
-  };
+  }, []);
 
-  // Close dropdown if clicking outside of it (desktop only)
+  const closeDropdown = useCallback(() => {
+    setOpenDropdown(null);
+  }, []);
+
+  // Close dropdown if clicking outside (for Desktop)
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setOpenDropdown(null);
+      // Check if the click is outside the navigation container ref
+      if (navRef.current && !navRef.current.contains(event.target as Node)) {
+        closeDropdown();
       }
     };
 
     if (openDropdown && window.innerWidth >= 1024) {
+      // Only on desktop
       document.addEventListener("mousedown", handleClickOutside);
     } else {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -56,288 +69,149 @@ const Header = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [openDropdown]);
+  }, [openDropdown, closeDropdown]);
 
+  // Effect for body scroll lock
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.classList.add(styles.noScroll); // Use class from module
+    } else {
+      document.body.classList.remove(styles.noScroll);
+    }
+    // Cleanup function
+    return () => document.body.classList.remove(styles.noScroll);
+  }, [isMobileMenuOpen]);
+
+  // Effect to close mobile menu on resize to desktop
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024 && isMobileMenuOpen) {
-        setIsMobileMenuOpen(false);
+        toggleMobileMenu(); // Use the toggle function to ensure state consistency
       }
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [isMobileMenuOpen]);
+  }, [isMobileMenuOpen, toggleMobileMenu]);
 
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.classList.add("no-scroll");
-    } else {
-      document.body.classList.remove("no-scroll");
-    }
-    return () => document.body.classList.remove("no-scroll");
-  }, [isMobileMenuOpen]);
-
-  const renderMenuNavLinks = (isMobile = false) => {
-    return menuNavigationConfig.map((item) => {
-      const hasSubItems = item.subItems && item.subItems.length > 0;
-      const isDropdownOpen = openDropdown === item.translationKey;
-
-      return (
-        <li
-          key={item.href}
-          className={`${hasSubItems ? styles.navItemWithDropdown : ""} ${
-            isMobile ? styles.mobileNavItem : ""
-          }`}
-          ref={hasSubItems && !isMobile ? dropdownRef : null}
-        >
-          {hasSubItems ? (
-            <>
-              <button
-                type="button"
-                className={`${styles.dropdownToggle} ${
-                  isDropdownOpen ? styles.dropdownToggleOpen : ""
-                }`}
-                onClick={(e) => {
-                  if (isMobile) e.stopPropagation();
-                  handleDropdownToggle(item.translationKey);
-                }}
-                aria-expanded={isDropdownOpen}
-                aria-haspopup="true"
-              >
-                {t(item.translationKey)}
-                <IconChevronDown className={styles.dropdownIcon} />
-              </button>
-
-              <ul
-                className={`${styles.dropdownMenu} ${
-                  isDropdownOpen ? styles.dropdownMenuOpen : ""
-                }`}
-                aria-hidden={!isDropdownOpen}
-              >
-                {item.subItems?.map((subItem) => (
-                  <li key={subItem.translationKey}>
-                    <Link
-                      href="/"
-                      onClick={() => {
-                        if (isMobileMenuOpen) toggleMobileMenu();
-                        setOpenDropdown(null);
-                      }}
-                    >
-                      {t(subItem.translationKey)}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </>
-          ) : (
-            <Link
-              href="/"
-              className={pathname === item.href ? styles.activeLink : ""}
-              onClick={toggleMobileMenu}
-            >
-              {t(item.translationKey)}
-            </Link>
-          )}
-        </li>
-      );
-    });
+  // Placeholder actions
+  const handleSearchClick = () => {
+    console.log("Search clicked");
+    // Implement search functionality (e.g., open search modal/overlay)
   };
-
-  const renderSecondaryMenuNavLinks = () => {
-    return secondaryMenuNavigationConfig.map((item) => (
-      <li key={item.href}>
-        <Link href="/" onClick={toggleMobileMenu}>
-          {t(item.translationKey)}
-        </Link>
-      </li>
-    ));
+  const handleMainActionClick = () => {
+    console.log("Main action clicked");
+    // Implement main action (e.g., navigate to contact/login)
   };
 
   return (
-    <div className={styles.headerAbsoluteWrapper}>
-      <header
-        className={`${styles.header} ${
-          isMobileMenuOpen ? styles.hiddenOnMobile : ""
-        }`}
-      >
-        <div className={styles.headerOuterWrapper}>
-          <div className={styles.desktopTopContainer}>
-            <nav className={styles.desktopMainNav}>
-              <ul>{renderSecondaryMenuNavLinks()}</ul>
-            </nav>
-            <div className={styles.desktopLangSwitcher}>
-              <Link
-                href={pathname}
-                locale="nl"
-                className={
-                  locale === "nl" ? styles.langLinkActive : styles.langLink
-                }
-                aria-current={locale === "nl" ? "page" : undefined}
+    // Use a fragment or div if the wrapper isn't always needed
+    <>
+      <div className={styles.headerAbsoluteWrapper}>
+        {" "}
+        {/* This wrapper might need review depending on layout needs */}
+        <header
+          className={`${styles.header} ${
+            isMobileMenuOpen ? styles.hiddenOnMobile : "" // CSS handles hiding header when mobile menu open
+          }`}
+        >
+          <div className={styles.headerOuterWrapper}>
+            {/* Desktop Top Bar */}
+            <div className={styles.desktopTopContainer}>
+              <nav
+                className={styles.desktopMainNav}
+                aria-label={t("secondaryNavLabel") || "Secondary navigation"}
               >
-                NL
-              </Link>
-              <Link
-                href={pathname}
-                locale="fr"
-                className={
-                  locale === "fr" ? styles.langLinkActive : styles.langLink
-                }
-                aria-current={locale === "fr" ? "page" : undefined}
-              >
-                FR
-              </Link>
+                {/* Render Secondary Nav directly or use NavigationMenu */}
+                {/* Direct rendering approach: */}
+                <ul>
+                  {secondaryMenuNavigationConfig.map((item) => (
+                    <li key={item.translationKey || item.href}>
+                      <Link href="/">{t(item.translationKey)}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+              <LanguageSwitcher className={styles.desktopLangSwitcher} />
             </div>
-          </div>
 
-          <div className={styles.headerInnerWrapper}>
-            <div className={styles.container}>
-              <div className={styles.headerLogoSection}>
-                <div className={styles.logoWrapper}>
-                  <Link href="/" aria-label={t("ariaHomepage")}>
-                    <Image
-                      src="/logo.png"
-                      alt="Logo"
-                      width={153}
-                      height={60}
-                      className={`${styles.logoImage} ${
-                        isMobileMenuOpen ? styles.hideOnMobileMenuOpen : ""
-                      }`}
-                    />
-                    <IconLogo
-                      className={`${styles.logoSvg} ${
-                        !isMobileMenuOpen
-                          ? styles.hideIconWhenMobileMenuClosed
-                          : ""
-                      }`}
-                    />
-                  </Link>
+            {/* Main Header Bar */}
+            <div className={styles.headerInnerWrapper}>
+              <div className={styles.container}>
+                {/* Logo Section */}
+                <div className={styles.headerLogoSection}>
+                  <Logo
+                    href="/"
+                    ariaLabel={t("ariaHomepage")}
+                    context="header"
+                    isMobileMenuOpen={isMobileMenuOpen} // Pass state for CSS swapping
+                  />
                 </div>
-              </div>
 
-              <div className={styles.mobileHeaderActions}>
-                <button
-                  className={styles.mobileSearchButton}
-                  aria-label={t("search")}
-                >
-                  <IconSearch className={styles.searchIconSvg} />
-                </button>
-                <button
-                  className={styles.mobileMenuButton}
-                  onClick={toggleMobileMenu}
-                  aria-label={t("openMenu")}
-                  aria-expanded={false}
-                  aria-controls="mobile-menu-panel"
-                >
-                  <IconHamburger className={styles.menuIconSvg} />
-                </button>
-              </div>
-
-              <div className={styles.headerNavSection}>
-                <nav className={styles.desktopSecondaryNav}>
-                  <ul className={styles.desktopSecondaryNavList}>
-                    {renderMenuNavLinks()}
-                  </ul>
-                </nav>
-              </div>
-
-              <div className={styles.headerActionSection}>
-                <div className={styles.desktopSearchWrapper}>
+                {/* Mobile-only Header Actions (Toggles) */}
+                <div className={styles.mobileHeaderActions}>
                   <button
-                    className={styles.desktopSearchButtonSecondary}
+                    className={styles.mobileSearchButton}
                     aria-label={t("search")}
+                    onClick={handleSearchClick}
                   >
-                    <IconSearch className={styles.whiteIcon} />
+                    <IconSearch className={styles.searchIconSvg} />
                   </button>
+                  <button
+                    className={styles.mobileMenuButton}
+                    onClick={toggleMobileMenu}
+                    aria-label={t("openMenu")}
+                    aria-expanded={isMobileMenuOpen} // Correctly reflect state
+                    aria-controls="mobile-menu-panel"
+                  >
+                    <IconHamburger className={styles.menuIconSvg} />
+                  </button>
+                </div>
 
-                  <button className={styles.desktopSearchButton}>
-                    {t("mainAction")}
-                    <IconButton className={styles.whiteIcon} />
-                  </button>
+                {/* Desktop Navigation Section */}
+                <div ref={navRef} className={styles.headerNavSection}>
+                  {" "}
+                  {/* Added ref here */}
+                  <nav
+                    className={styles.desktopSecondaryNav}
+                    aria-label={t("primaryNavLabel") || "Primary navigation"}
+                  >
+                    <NavigationMenu
+                      navConfig={menuNavigationConfig}
+                      isMobile={false}
+                      openDropdown={openDropdown}
+                      onDropdownToggle={handleDropdownToggle}
+                      onLinkClick={closeDropdown} // Close dropdown when a link/sublink is clicked
+                      listClassName={styles.desktopSecondaryNavList}
+                      // No itemClassName needed for desktop primary nav
+                    />
+                  </nav>
+                </div>
+
+                {/* Desktop Action Section */}
+                <div className={styles.headerActionSection}>
+                  <HeaderActions
+                    onSearchClick={handleSearchClick}
+                    onMainActionClick={handleMainActionClick}
+                  />
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </header>
-
-      <div
-        id="mobile-menu-panel"
-        className={`${styles.mobileMenuPanel} ${
-          isMobileMenuOpen ? styles.isOpen : ""
-        }`}
-        aria-hidden={!isMobileMenuOpen}
-      >
-        <div className={styles.mobileMenuTopBar}>
-          <div className={styles.mobileMenuLogoSimpleWrapper}>
-            <IconLogo className={styles.mobileMenuLogoSimple} />
-          </div>
-          <div className={styles.mobileMenuTopActions}>
-            <button
-              className={styles.mobileMenuSearchButton}
-              aria-label={t("search")}
-            >
-              <IconSearch />
-            </button>
-            <button
-              className={styles.mobileMenuCloseButton}
-              onClick={toggleMobileMenu}
-              aria-label={t("closeMenu")}
-              aria-expanded={true}
-            >
-              <IconClose />
-            </button>
-          </div>
-        </div>
-
-        <span className={styles.mobileMenuSeparator} />
-
-        <div className={styles.mobileMenuScrollableContent}>
-          <nav
-            className={styles.mobileMenuNavPrimary}
-            aria-label={t("navConseil")}
-          >
-            <ul>{renderMenuNavLinks(true)}</ul>
-          </nav>
-
-          <nav
-            className={styles.mobileMenuNavSecondary}
-            aria-label="Secondary Navigation"
-          >
-            <ul>{renderSecondaryMenuNavLinks()}</ul>
-          </nav>
-
-          <div className={styles.mobileMenuMainAction}>
-            <button className={styles.mainActionButton}>
-              {t("mainAction")}
-              <IconButton className={styles.whiteIcon} />
-            </button>
-          </div>
-
-          <div className={styles.mobileMenuLangSwitcher}>
-            <Link
-              href={pathname}
-              locale="nl"
-              className={
-                locale === "nl" ? styles.langLinkActive : styles.langLink
-              }
-              aria-current={locale === "nl" ? "page" : undefined}
-            >
-              NL
-            </Link>
-            <Link
-              href={pathname}
-              locale="fr"
-              className={
-                locale === "fr" ? styles.langLinkActive : styles.langLink
-              }
-              aria-current={locale === "fr" ? "page" : undefined}
-            >
-              FR
-            </Link>
-          </div>
-        </div>
+        </header>
       </div>
-    </div>
+
+      {/* Mobile Menu Panel */}
+      <MobileMenuPanel
+        isOpen={isMobileMenuOpen}
+        onClose={toggleMobileMenu} // Use the callback
+        onSearchClick={handleSearchClick}
+        onMainActionClick={handleMainActionClick}
+        menuNavConfig={menuNavigationConfig}
+        secondaryMenuNavConfig={secondaryMenuNavigationConfig}
+        openDropdown={openDropdown}
+        onDropdownToggle={handleDropdownToggle} // Pass toggle handler
+      />
+    </> // End Fragment
   );
 };
 
