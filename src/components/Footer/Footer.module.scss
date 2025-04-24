@@ -1,0 +1,283 @@
+// src/components/Footer/Footer.module.scss (Create folder and file)
+@use "@/styles/variables" as vars;
+@use "@/styles/mixins" as mixins;
+
+// --- Footer general styles ---
+.footer {
+  padding: vars.$spacing-2xl 0; // Vertical padding
+  color: vars.$color-text-footer;
+  font-size: 14px;
+  line-height: 1.6;
+  background-color: vars.$color-background-footer; // Ensure background color is set
+}
+
+.container {
+  max-width: vars.$container-max-width-desktop;
+  margin: 0 auto;
+  padding: 0 vars.$container-padding-mobile;
+
+  @include mixins.desktop {
+    padding: 0 vars.$container-padding-desktop;
+  }
+  @media (min-width: #{vars.$container-max-width-desktop}) {
+    padding-left: 120px;
+    padding-right: 120px;
+  }
+}
+
+// --- Logo ---
+.mobileLogoWrapper {
+  margin-bottom: vars.$spacing-xl; // Space below mobile logo
+  display: flex; // Use flex for centering
+  justify-content: center;
+  align-items: center;
+  @include mixins.desktop {
+    display: none;
+  }
+}
+
+.desktopLogoWrapper {
+  display: none;
+  @include mixins.desktop {
+    display: block;
+    margin-right: vars.$spacing-4xl;
+    padding-top: vars.$spacing-xs; // Align visually
+    flex-shrink: 0;
+  }
+}
+
+.footerLogoSvg {
+  // Specific class for footer logo icon styling
+  height: 35px;
+  width: auto;
+  color: vars.$color-text-primary; // Or specific logo color
+}
+
+// --- Main Content ---
+.mainContentRow {
+  display: flex;
+  flex-direction: column;
+
+  @include mixins.desktop {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: vars.$spacing-2xl;
+  }
+}
+
+// --- Columns & Titles ---
+.column {
+  // No specific styles needed unless for layout tweaks
+}
+
+.sectionTitle {
+  font-weight: vars.$font-weight-semibold;
+  color: vars.$color-text-primary;
+  margin-bottom: vars.$spacing-sm;
+  font-size: 16px;
+}
+
+// Address
+.address {
+  font-style: normal;
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-xxs;
+  color: vars.$color-text-footer; // Ensure address text color is set
+
+  span {
+    // For non-link text
+    color: inherit;
+  }
+
+  a {
+    color: inherit; // Inherit from .address
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+      color: vars.$color-primary;
+    }
+  }
+}
+
+// --- Quick Links ---
+.quickLinksWrapper {
+  // The column div containing quick links
+  // No specific style needed for wrapper itself now
+}
+
+.quickLinksColumns {
+  // Container for the two ULs
+  display: flex;
+  flex-direction: column; // Mobile: still conceptually stacked
+  gap: vars.$spacing-xs; // Reduce gap between links inside mobile columns if needed
+
+  @include mixins.desktop {
+    flex-direction: row;
+    justify-content: flex-start; // Align columns to start
+    gap: vars.$spacing-3xl; // Increase gap between columns on desktop
+  }
+}
+
+.quickLinksList,
+.legalLinksList {
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-sm; // Consistent gap between list items
+  }
+  li {
+  }
+  a {
+    color: vars.$color-text-footer; // Ensure link color
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+      color: vars.$color-primary;
+    }
+  }
+}
+
+// --- Separators ---
+.separator {
+  border: none;
+  border-top: 1px solid vars.$color-border-footer;
+  margin: vars.$spacing-xl 0; // Adjusted margin for mobile (above sections)
+  opacity: 0.5;
+
+  &.mobileOnlySeparator {
+    // Styles specific to mobile separators placed BEFORE sections
+    margin: vars.$spacing-xl 0; // Vertical space
+
+    @include mixins.desktop {
+      display: none; // Hide on desktop
+    }
+  }
+
+  &.desktopOnlySeparator {
+    display: none; // Hide on mobile
+    @include mixins.desktop {
+      display: block; // Show below main row on desktop
+      margin-top: vars.$spacing-2xl; // Increase space above it
+      margin-bottom: vars.$spacing-xl; // Space below it
+    }
+  }
+}
+
+// --- Footer Bottom ---
+.footerBottom {
+  // No padding needed here if desktop separator handles spacing
+  @include mixins.desktop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.socialLangRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: vars.$spacing-lg; // Space below social row on mobile
+
+  @include mixins.desktop {
+    margin-bottom: 0; // No margin needed on desktop
+    // order: 1; // Optionally ensure it comes first visually if needed
+  }
+}
+
+.socialLinks {
+  display: flex;
+  align-items: center;
+  gap: vars.$spacing-lg;
+}
+
+.socialLink {
+  display: inline-flex;
+  align-items: center;
+  gap: vars.$spacing-xs;
+  color: vars.$color-text-footer; // Ensure color
+  text-decoration: none;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+  span {
+    font-size: 13px;
+  }
+  &:hover {
+    color: vars.$color-primary;
+    text-decoration: underline;
+  }
+}
+
+.copyrightLangRow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @include mixins.desktop {
+    flex-direction: row;
+    align-items: center;
+    gap: vars.$spacing-lg;
+    // order: 2; // Optionally ensure copyright/lang comes second
+  }
+}
+
+.copyright {
+  font-size: 12px;
+  color: vars.$color-text-footer-light;
+  text-align: center;
+
+  @include mixins.desktop {
+    text-align: right; // Or left, depending on final layout preference
+  }
+}
+
+.langSwitcher {
+  display: flex;
+  align-items: center;
+  gap: vars.$spacing-sm;
+
+  &.mobileLangSwitcher {
+    margin-top: vars.$spacing-md; // Space above mobile lang switcher
+    @include mixins.desktop {
+      display: none;
+    }
+  }
+  &.desktopLangSwitcher {
+    display: none;
+    @include mixins.desktop {
+      display: flex;
+    }
+  }
+}
+
+.langLink,
+.langLinkActive {
+  font-size: 12px;
+  font-weight: vars.$font-weight-medium;
+  color: vars.$color-text-footer-light;
+  text-decoration: none;
+  padding: vars.$spacing-xxs;
+  &:hover {
+    text-decoration: underline;
+    color: vars.$color-primary;
+  }
+}
+
+.langLinkActive {
+  color: vars.$color-text-footer;
+  font-weight: vars.$font-weight-semibold;
+  cursor: default;
+  &:hover {
+    text-decoration: none;
+    color: vars.$color-text-footer;
+  }
+}

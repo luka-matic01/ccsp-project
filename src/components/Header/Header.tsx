@@ -14,29 +14,10 @@ import IconButton from "../Icons/IconButton";
 import IconChevronDown from "../Icons/IconChevronDown";
 import Image from "next/image";
 
-const menuNavigationConfig = [
-  { href: "/conseil-central", translationKey: "navConseil" },
-  {
-    href: "#", // Main link is just a toggle
-    translationKey: "navSurveillance",
-    subItems: [
-      { href: "/surveillance/sub1", translationKey: "subNavSurveillance1" },
-      { href: "/surveillance/sub2", translationKey: "subNavSurveillance2" },
-    ],
-  },
-  { href: "/avis", translationKey: "navAvis" },
-  { href: "/droit-de-plainte", translationKey: "navDroit" },
-  { href: "/publications", translationKey: "navPublications" },
-  { href: "/mecanisme-prevention", translationKey: "navMecanisme" },
-];
-
-const secondaryMenuNavigationConfig = [
-  { href: "/actualites", translationKey: "navActualites" },
-  { href: "/jurisprudence", translationKey: "navJurisprudence" },
-  { href: "/job", translationKey: "navJob" },
-  { href: "/contact", translationKey: "navContact" },
-  { href: "/liens-utiles", translationKey: "navLiens" },
-];
+import {
+  menuNavigationConfig,
+  secondaryMenuNavigationConfig,
+} from "@/config/navigation";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

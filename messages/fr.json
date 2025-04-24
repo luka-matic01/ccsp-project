@@ -34,5 +34,19 @@
     "heroNoPostsMessage": "Aucune actualité à afficher pour le moment.",
     "heroViewAllButton": "Voir toutes les actualités",
     "heroTitle": "Nos dernières actualités"
+  },
+  "Footer": {
+    "coordinatesTitle": "Coordonnées",
+    "quickLinksTitle": "Accès rapides",
+    "legalTitle": "Légal",
+    "footerCCSP": "CCSP",
+    "footerCommissions": "Commissions de surveillance",
+    "footerDevenirMembre": "Devenir membre",
+    "footerPolicyConfidentiality": "Police de confidentialité",
+    "footerPolicyCookies": "Police de cookies",
+    "footerTerms": "Termes et conditions",
+    "linkedinAria": "Visitez notre page LinkedIn",
+    "youtubeAria": "Visitez notre chaîne YouTube",
+    "copyright": "©{year} CCSP Tout droits réservés."
   }
 }

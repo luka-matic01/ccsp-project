@@ -136,14 +136,6 @@
   flex-shrink: 0;
   margin-right: 48;
 
-  @include mixins.desktop {
-    display: none;
-  }
-
-  @media (min-width: 1200px) {
-    display: flex;
-  }
-
   a {
     display: block;
     line-height: 0;
@@ -345,7 +337,7 @@
     font-weight: vars.$font-weight-regular;
     padding: vars.$spacing-xs 0;
     &:hover {
-      color: lighten(vars.$menu-panel-text, 20%);
+      color: lighten(#2a2a2a, 20%);
     }
   }
 }
@@ -633,6 +625,8 @@
 
     li {
       display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     a {
@@ -641,7 +635,7 @@
       // Default font size for >= 1350px
       font-size: 16px;
       font-weight: vars.$font-weight-medium;
-      padding: vars.$spacing-sm vars.$spacing-md;
+      text-align: center;
       transition: color 0.2s ease, font-size 0.2s ease; // Added font-size transition
 
       &:hover {

@@ -4,6 +4,7 @@ import { routing } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { Host_Grotesk } from "next/font/google";
 import Header from "@/components/Header/Header";
+import Footer from "@/components/Footer/Footer";
 import "@/styles/globals.scss";
 
 const hostGrotesk = Host_Grotesk({
@@ -35,6 +36,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider>
           <Header />
           <main>{children}</main>
+          <Footer />
         </NextIntlClientProvider>
       </body>
     </html>
