@@ -7,13 +7,14 @@
   overflow-x: hidden; // IMPORTANT: Prevent horizontal scroll from image bleed
 
   @include mixins.mobile {
-    padding: vars.$spacing-lg 0; // Adjust vertical padding for mobile
+    padding: vars.$spacing-4xl 0; // Adjust vertical padding for mobile
   }
 }
 
 .container {
   max-width: vars.$container-max-width-desktop;
   margin: 0 auto;
+  background-color: #f2f2f2;
   // Mobile: Apply standard side padding here
 
   display: flex;
@@ -25,42 +26,55 @@
 
   @include mixins.desktop {
     // Desktop: Use standard container side padding for centering & calculations
-    padding: 0 vars.$container-padding-desktop;
     flex-direction: row; // Desktop: Side-by-side
+    padding: 0 vars.$container-padding-desktop;
     justify-content: space-between; // Let flexbox handle spacing initially
     align-items: center; // Vertically align items in the row
   }
+
+  @include mixins.biggest-desktop {
+    // Remove these fixed margins as they interfere with centering
+
+    padding-left: 120px;
+  }
 }
 
-.imageWrapper {
-  width: 100%; // Mobile: Full width within padding
-  max-width: 340px; // Limit image width on mobile
-  flex-shrink: 0; // Prevent shrinking on mobile if container is flex
+.mobileImageWrapper {
+  padding: 0 vars.$spacing-md;
+  margin-bottom: vars.$spacing-lg;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   img {
-    display: block;
-    width: 100%;
-    height: auto; // Maintain aspect ratio
-    border-radius: vars.$border-radius-md; // Standard radius for mobile
+    border-radius: vars.$border-radius-md;
+    object-fit: contain;
   }
 
+  // Hide on desktop
   @include mixins.desktop {
+    display: none;
+  }
+}
+
+.desktopImageWrapper {
+  display: none; // Hide by default on mobile
+
+  @include mixins.desktop {
+    display: block; // Show on desktop
     order: 2; // Image on the right
-    // Assign a relative width. Adjust this percentage based on visual preference
-    // It should account for the gap defined in .container
     width: 55%;
-    // Allow the wrapper to extend beyond its container's padding boundary
     margin-right: calc(-1 * vars.$container-padding-desktop);
-    max-width: none; // Remove any mobile max-width constraints
-    align-self: stretch; // Make wrapper stretch vertically to match content height if needed
+    max-width: none;
+    align-self: stretch;
 
     img {
-      width: 100%; // Image takes full width of its *modified* wrapper
-      height: 100%; // Make image fill the height of the stretched wrapper
-      object-fit: cover; // Cover ensures the image fills without distortion
-      border-radius: 0; // Remove radius on the bleeding edge
-      border-top-left-radius: vars.$border-radius-md; // Keep radius on the inner top corner
-      border-bottom-left-radius: vars.$border-radius-md; // Keep radius on the inner bottom corner
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0;
+      border-top-left-radius: vars.$border-radius-md;
+      border-bottom-left-radius: vars.$border-radius-md;
     }
   }
 }
@@ -87,12 +101,12 @@
     gap: vars.$spacing-xl;
 
     // BETWEEN 1024px and 1150px → give it a top-margin
-    @media (min-width: 1024px) and (max-width: 1149px) {
-      margin-top: 96; // or whatever offset you need
+    @media (min-width: 1024px) and (max-width: 1249px) {
+      margin-top: 192; // or whatever offset you need
     }
 
     // AT 1150px and UP → remove that top spacing entirely
-    @media (min-width: 1150px) {
+    @media (min-width: 1250px) {
       margin-top: 0;
       padding-top: 0;
     }
@@ -106,7 +120,6 @@
   font-family: "Host Grotesk", sans-serif;
   font-style: normal;
   font-weight: 400;
-  letter-spacing: -0.03em;
   font-feature-settings: "ss03" on;
   color: #2a2a2a;
 
@@ -121,7 +134,17 @@
   @include mixins.desktop {
     font-size: 42px;
     line-height: 1.25;
-    max-width: 480px; // Optional: Constrain title width on desktop
+    max-width: 480px; // Width for standard desktop
+  }
+
+  @include mixins.bigger-desktop {
+    max-width: 600px; // Wider for bigger screens
+  }
+
+  @include mixins.biggest-desktop {
+    font-size: 64px;
+    max-width: 650px; // Much wider for the largest screens
+    line-height: 1.2; // Slightly tighter line height for better vertical space
   }
 }
 
@@ -131,7 +154,7 @@
 
 .subtitle {
   line-height: 1.5;
-  color: vars.$color-text-secondary;
+  color: #585656;
 
   // Mobile styles
   @include mixins.mobile {
@@ -141,8 +164,8 @@
 
   // Desktop styles
   @include mixins.desktop {
-    font-size: 16px;
-    max-width: 500px; // Optional: Constrain subtitle width on desktop
+    font-size: 20px;
+    max-width: 650px; // Optional: Constrain subtitle width on desktop
   }
 }
 
@@ -174,6 +197,11 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: start;
+
+  @include mixins.desktop {
+    font-size: 16px;
+  }
 }
 
 .searchButton {
@@ -183,7 +211,7 @@
   background-color: #0b828a;
   border: none;
   border-radius: vars.$border-radius-sm;
-  padding: vars.$spacing-sm;
+  padding: vars.$spacing-lg;
   cursor: pointer;
   flex-shrink: 0;
 
@@ -192,6 +220,16 @@
     height: 20px;
     color: vars.$color-white;
     display: block;
+  }
+
+  .whiteIcon {
+    circle {
+      stroke: #ffffff; // White circle
+    }
+
+    path {
+      stroke: #ddb736; // Gold stick
+    }
   }
 
   &:hover {

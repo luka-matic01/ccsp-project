@@ -12,7 +12,9 @@
     "navJob": "Job",
     "navContact": "Contact",
     "navLiens": "Nuttige links",
-
+    "subNavSurveillance1": "Toezicht op gevangenissen",
+    "subNavSurveillance2": "Toezicht op gevangenissen",
+    "subNavSurveillance3": "Toezicht op gevangenissen",
     "openMenu": "Hoofdmenu openen",
     "closeMenu": "Hoofdmenu sluiten",
     "search": "Zoeken",

@@ -6,8 +6,9 @@ import { useTranslations } from "next-intl";
 import IconSearch from "../Icons/IconSearch"; // Adjust path if needed
 import styles from "./HomePageHero.module.scss"; // Corrected import path if filename changed
 
-// Placeholder - Replace with your actual image path
-const HERO_IMAGE_PATH = "/images/hero-placeholder.png"; // Make sure this image exists in public/images
+// Define image paths
+const DESKTOP_HERO_IMAGE_PATH = "/images/hero-placeholder.png";
+const MOBILE_HERO_IMAGE_PATH = "/images/mobile-hero.png";
 const HERO_IMAGE_ALT_KEY = "heroImageAlt"; // Translation key for alt text
 
 // Translation keys for the heading parts
@@ -31,15 +32,26 @@ const HomePageHero = () => {
 
   return (
     <section className={styles.hero}>
+      {/* Mobile Hero Image - Only visible on mobile */}
+      <div className={styles.mobileImageWrapper}>
+        <Image
+          src={MOBILE_HERO_IMAGE_PATH}
+          alt={t(HERO_IMAGE_ALT_KEY)}
+          width={242}
+          height={180}
+          priority
+        />
+      </div>
+
       <div className={styles.container}>
-        {/* Image Wrapper */}
-        <div className={styles.imageWrapper}>
+        {/* Desktop Image Wrapper - Only visible on desktop */}
+        <div className={styles.desktopImageWrapper}>
           <Image
-            src={HERO_IMAGE_PATH}
+            src={DESKTOP_HERO_IMAGE_PATH}
             alt={t(HERO_IMAGE_ALT_KEY)}
-            width={952} // --- CORRECT INTRINSIC WIDTH ---
-            height={1209} // --- CORRECT INTRINSIC HEIGHT ---
-            priority // Keep priority for LCP
+            width={952}
+            height={1209}
+            priority
           />
         </div>
 
@@ -50,6 +62,7 @@ const HomePageHero = () => {
             <span className={styles.titleUnderline}>
               {t(HERO_TITLE_UNDERLINE1)}
             </span>{" "}
+            <br />
             {t(HERO_TITLE_PART2)}{" "}
             <span className={styles.titleUnderline}>
               {t(HERO_TITLE_UNDERLINE2)}
@@ -68,7 +81,7 @@ const HomePageHero = () => {
               onClick={handleSearchClick}
               aria-label={t(HERO_SEARCH_BUTTON_ARIA_LABEL_KEY)}
             >
-              <IconSearch />
+              <IconSearch className={styles.whiteIcon} />
             </button>
           </div>
         </div>

@@ -1,7 +1,7 @@
 // src/components/Header/Header.tsx
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import styles from "./Header.module.scss";
@@ -11,11 +11,20 @@ import IconHamburger from "../Icons/IconHamburger";
 import IconClose from "../Icons/IconClose";
 import IconSearch from "../Icons/IconSearch";
 import IconButton from "../Icons/IconButton";
+import IconChevronDown from "../Icons/IconChevronDown";
 import Image from "next/image";
 
 const menuNavigationConfig = [
   { href: "/conseil-central", translationKey: "navConseil" },
-  { href: "/surveillance", translationKey: "navSurveillance" },
+  {
+    href: "#", // Main link is just a toggle
+    translationKey: "navSurveillance",
+    subItems: [
+      { href: "/surveillance/sub1", translationKey: "subNavSurveillance1" },
+      { href: "/surveillance/sub2", translationKey: "subNavSurveillance2" },
+      { href: "/surveillance/sub3", translationKey: "subNavSurveillance3" },
+    ],
+  },
   { href: "/avis", translationKey: "navAvis" },
   { href: "/droit-de-plainte", translationKey: "navDroit" },
   { href: "/publications", translationKey: "navPublications" },
@@ -32,13 +41,42 @@ const secondaryMenuNavigationConfig = [
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const t = useTranslations("Header");
   const pathname = usePathname();
   const locale = useLocale();
+  const dropdownRef = useRef<HTMLLIElement | null>(null);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+    setOpenDropdown(null); // Close dropdown when mobile menu toggles
   };
+
+  const handleDropdownToggle = (key: string, isMobile: boolean = false) => {
+    setOpenDropdown((prev) => (prev === key ? null : key));
+  };
+
+  // Close dropdown if clicking outside of it (desktop only)
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpenDropdown(null);
+      }
+    };
+
+    if (openDropdown && window.innerWidth >= 1024) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openDropdown]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -59,18 +97,70 @@ const Header = () => {
     return () => document.body.classList.remove("no-scroll");
   }, [isMobileMenuOpen]);
 
-  const renderMenuNavLinks = () => {
-    return menuNavigationConfig.map((item) => (
-      <li key={item.href}>
-        <Link
-          href={item.href}
-          className={pathname === item.href ? styles.activeLink : ""}
-          onClick={toggleMobileMenu}
+  const renderMenuNavLinks = (isMobile = false) => {
+    return menuNavigationConfig.map((item) => {
+      const hasSubItems = item.subItems && item.subItems.length > 0;
+      const isDropdownOpen = openDropdown === item.translationKey;
+
+      return (
+        <li
+          key={item.href}
+          className={`${hasSubItems ? styles.navItemWithDropdown : ""} ${
+            isMobile ? styles.mobileNavItem : ""
+          }`}
+          ref={hasSubItems && !isMobile ? dropdownRef : null}
         >
-          {t(item.translationKey)}
-        </Link>
-      </li>
-    ));
+          {hasSubItems ? (
+            <>
+              <button
+                type="button"
+                className={`${styles.dropdownToggle} ${
+                  isDropdownOpen ? styles.dropdownToggleOpen : ""
+                }`}
+                onClick={(e) => {
+                  if (isMobile) e.stopPropagation();
+                  handleDropdownToggle(item.translationKey, isMobile);
+                }}
+                aria-expanded={isDropdownOpen}
+                aria-haspopup="true"
+              >
+                {t(item.translationKey)}
+                <IconChevronDown className={styles.dropdownIcon} />
+              </button>
+
+              <ul
+                className={`${styles.dropdownMenu} ${
+                  isDropdownOpen ? styles.dropdownMenuOpen : ""
+                }`}
+                aria-hidden={!isDropdownOpen}
+              >
+                {item.subItems?.map((subItem) => (
+                  <li key={subItem.translationKey}>
+                    <Link
+                      href={subItem.href}
+                      onClick={() => {
+                        if (isMobileMenuOpen) toggleMobileMenu();
+                        setOpenDropdown(null);
+                      }}
+                    >
+                      {t(subItem.translationKey)}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <Link
+              href={item.href}
+              className={pathname === item.href ? styles.activeLink : ""}
+              onClick={toggleMobileMenu}
+            >
+              {t(item.translationKey)}
+            </Link>
+          )}
+        </li>
+      );
+    });
   };
 
   const renderSecondaryMenuNavLinks = () => {
@@ -219,12 +309,14 @@ const Header = () => {
           </div>
         </div>
 
+        <span className={styles.mobileMenuSeparator} />
+
         <div className={styles.mobileMenuScrollableContent}>
           <nav
             className={styles.mobileMenuNavPrimary}
             aria-label={t("navConseil")}
           >
-            <ul>{renderMenuNavLinks()}</ul>
+            <ul>{renderMenuNavLinks(true)}</ul>
           </nav>
 
           <nav

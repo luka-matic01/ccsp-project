@@ -65,35 +65,42 @@
 .container {
   display: flex;
   align-items: center;
-  // justify-content: space-between; // Removing to manually control spacing on desktop
   height: 100%;
   width: 100%;
   max-width: vars.$container-max-width-desktop;
   margin: 0 auto;
+  box-sizing: border-box;
 
   @include mixins.mobile {
     padding: 0 15px;
-    justify-content: space-between; // Keep space-between for mobile layout
-    width: 100%; // Enforce full width on mobile
-    max-width: 100%; // Ensure no max-width constraints on mobile
+    justify-content: space-between;
+    width: 100%;
+    max-width: 100%;
   }
 
   @include mixins.biggest-desktop {
-    margin-left: 120;
-    margin-right: 120;
-  }
-
-  @include mixins.bigger-desktop {
-    padding-left: 10;
-    padding-right: 10;
+    // Remove these fixed margins as they interfere with centering
+    padding-left: 200px;
+    padding-right: 200px;
   }
 
   @include mixins.desktop {
     margin-top: 48;
-    padding-left: 48;
-    padding-right: 48;
-    width: 100%; /* Ensure full width */
+    // Remove these fixed padding values
+    // padding-left: 48;
+    // padding-right: 48;
+    // Remove width: 100% to allow max-width and margin: auto to work
+    // width: 100%; /* Ensure full width */
     justify-content: flex-start;
+
+    // Add consistent padding that won't break centering
+    padding: 0 vars.$container-padding-desktop;
+
+    // Override with larger padding for screens wider than max-width
+    @media (min-width: #{vars.$container-max-width-desktop}) {
+      padding-left: 120px;
+      padding-right: 120px;
+    }
   }
 }
 
@@ -105,7 +112,7 @@
   display: none;
 
   @include mixins.biggest-desktop {
-    padding-right: 170px;
+    padding-right: 96px;
   }
   padding-right: 48px;
   @include mixins.desktop {
@@ -285,16 +292,23 @@
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
   li {
     margin-bottom: vars.$spacing-lg;
+    width: auto;
+
     a {
-      display: block;
+      display: inline-block;
+      width: auto;
       text-decoration: none;
       color: #2a2a2a;
       font-size: 20px;
       font-weight: vars.$font-weight-medium;
       padding: vars.$spacing-xs 0;
+
       &:hover,
       &.activeLink {
         color: lighten(#2a2a2a, 20%);
@@ -431,8 +445,8 @@
   .desktopSearchButton {
     display: none; // Hidden by default on wider desktops
 
-    @media (max-width: 1350px) {
-      display: flex; // Reappear below 1350px
+    @media (max-width: 1400px) {
+      display: flex; // Reappear below 1400px
     }
 
     // Keep rest of your styling
@@ -680,7 +694,7 @@
 
 .desktopSearchButton {
   display: none;
-  @media (min-width: 1350px) {
+  @media (min-width: 1400px) {
     display: flex;
     align-items: center;
     gap: vars.$spacing-sm;
@@ -703,4 +717,195 @@
       height: 12px;
     }
   }
+}
+
+.mobileMenuSeparator {
+  border-top: 0.5px solid vars.$color-border-header-mobile;
+  margin-top: vars.$spacing-md;
+  margin-left: 28px;
+  margin-right: 28px;
+  opacity: 0.5;
+}
+
+// For preventing body scroll when mobile menu is open
+.noScroll {
+  overflow: hidden;
+}
+
+// Navigation item with dropdown
+.navItemWithDropdown {
+  position: relative;
+}
+
+// Dropdown toggle button
+.dropdownToggle {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+
+  display: flex;
+  align-items: center;
+  gap: vars.$spacing-xs;
+
+  text-decoration: none;
+  color: vars.$color-text-primary;
+  font-size: 16px;
+  font-weight: vars.$font-weight-medium;
+  padding: vars.$spacing-sm vars.$spacing-md;
+  transition: color 0.2s ease, font-size 0.2s ease;
+
+  &:hover {
+    color: vars.$color-primary;
+  }
+
+  &.dropdownToggleOpen {
+    color: vars.$color-primary;
+    font-weight: vars.$font-weight-semibold;
+  }
+
+  @media (max-width: 1349px) {
+    font-size: 14px;
+  }
+
+  .mobileMenuNavPrimary & {
+    color: #2a2a2a;
+    font-size: 20px;
+    font-weight: vars.$font-weight-medium;
+    padding: vars.$spacing-xs 0;
+
+    display: inline-flex;
+    width: auto;
+    justify-content: flex-start;
+
+    &:hover,
+    &.dropdownToggleOpen {
+      color: lighten(#2a2a2a, 20%);
+    }
+  }
+}
+
+// Dropdown icon
+.dropdownIcon {
+  width: 14px;
+  height: 14px;
+  margin-left: 4px;
+  transition: transform 0.2s ease-in-out;
+  flex-shrink: 0;
+
+  .dropdownToggleOpen & {
+    transform: rotate(180deg);
+  }
+}
+
+// Dropdown menu
+.dropdownMenu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: none;
+
+  @include mixins.desktop {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    min-width: 200px;
+    background-color: #ffffff;
+    border-radius: vars.$border-radius-sm;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: vars.$spacing-sm 0;
+    z-index: calc(vars.$z-index-header + 1);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-5px);
+    display: block;
+
+    // Explicitly force vertical layout
+    flex-direction: unset !important; // Reset any inherited flex direction
+    flex-wrap: unset !important; // Reset any inherited flex wrap
+
+    // Force block layout for the list itself
+    display: block !important;
+
+    transition: opacity 0.2s ease, visibility 0s linear 0.2s,
+      transform 0.2s ease;
+
+    &.dropdownMenuOpen {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      transition: opacity 0.2s ease, visibility 0s linear 0s,
+        transform 0.2s ease;
+    }
+
+    li {
+      // Force list items to stack vertically with !important
+      display: block !important;
+      width: 100% !important;
+      float: none !important; // Prevent floating
+      clear: both !important; // Clear any floats
+
+      // Reset any flex or grid properties
+      flex: unset !important;
+
+      a {
+        display: block !important;
+        padding: vars.$spacing-xs vars.$spacing-md;
+        color: vars.$color-text-primary;
+        font-size: 14px;
+        text-decoration: none;
+        white-space: nowrap;
+
+        &:hover {
+          background-color: #f5f5f5;
+          color: vars.$color-primary;
+        }
+      }
+    }
+  }
+
+  // Mobile styles remain unchanged
+  .mobileMenuNavPrimary & {
+    display: none;
+    padding-left: vars.$spacing-lg;
+    margin-top: vars.$spacing-sm;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+
+    &.dropdownMenuOpen {
+      display: block;
+      max-height: 500px;
+    }
+
+    li {
+      margin-bottom: vars.$spacing-sm;
+      width: auto;
+
+      a {
+        display: inline-block;
+        width: auto;
+        font-size: 16px;
+        font-weight: vars.$font-weight-regular;
+        color: darken(#2a2a2a, 10%);
+        padding: vars.$spacing-xs 0;
+
+        &:hover {
+          color: lighten(#2a2a2a, 20%);
+        }
+      }
+    }
+  }
+}
+
+// Make sure the mobile menu separator is already defined
+.mobileMenuSeparator {
+  border-top: 0.5px solid vars.$color-border-header-mobile;
+  margin-top: vars.$spacing-md;
+  margin-left: 28px;
+  margin-right: 28px;
+  opacity: 0.5;
 }
