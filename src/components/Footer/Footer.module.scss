@@ -72,6 +72,10 @@
   color: vars.$color-text-primary;
   margin-bottom: vars.$spacing-sm;
   font-size: 16px;
+
+  @include mixins.desktop {
+    font-size: 20px;
+  }
 }
 
 // Address

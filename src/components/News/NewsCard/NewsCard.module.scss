@@ -59,10 +59,11 @@
 
 .tag {
   display: inline-block; // Fit content
-  background-color: #0b828a; // Example color from screenshot
+  background-color: #154b50; // Example color from screenshot
   color: vars.$color-white;
   padding: vars.$spacing-xxs vars.$spacing-sm;
-  border-radius: vars.$border-radius-sm;
+  border-radius: 2px;
+  padding: 2px 10px;
   font-size: 12px;
   font-weight: vars.$font-weight-medium;
   margin-bottom: vars.$spacing-xs;
